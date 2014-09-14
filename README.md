@@ -2,9 +2,7 @@ Scheibenanzeige
 ===============
 
 
-Häring Scheibenanzeige - NodeJS Server mit Socket.IO
-
-
+Häring Scheibenanzeige using NodeJS
 
 
 ### Beispiel
