@@ -1,6 +1,6 @@
 /* -----------------------------------
  * Scheibenanzeige für Häring ESA
- * 
+ *
  * index.js (NodeJS Server)
  *
  * (c) 2014 Jannik Lorenz
@@ -16,10 +16,10 @@ var socket;
 var fs = require('fs');
 
 // --- PORT ---
-var port = process.env.PORT || 8000;
+var port = process.env.PORT || 3000;
 
 // --- Path ---
-var HSABasePath = "/mnt/test/";
+var HSABasePath = "/Users/firebug/Desktop/";
 
 // --- Start Server and Route ---
 server.listen(port, function () { console.log('Server listening at port %d', port); });
@@ -101,8 +101,3 @@ io.on('connection', function (s) {
 
 /* -------------------------------------- */
 /* -------------------------------------- */
-
-
-
-
-
