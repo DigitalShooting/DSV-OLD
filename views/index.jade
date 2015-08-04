@@ -4,4 +4,14 @@ block title
 	| DSV
 	
 block body
-	h1 DSV
+	- var items = 18
+	
+	- var lines = items
+	- if (lines%3 != 0) lines += 3 - lines%3
+	- lines = lines/3
+	
+	- for (var i = 0; i < items; i++){
+		- var height = 100/ lines
+		div(class="col-lg-4 stand" style="height:#{height}%;")
+			h1 Stand #{i}
+	- }
