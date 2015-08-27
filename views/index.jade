@@ -7,24 +7,29 @@ block body
 	table(ng-controller="staende")
 		tr(ng-repeat="standLine in staendeList track by $index")
 			td(ng-repeat="stand in standLine track by $index")
-				div(ng-controller="stand" ng-init="init($parent.$parent.$index, $parent.$index)")
+				div(ng-controller="stand" stand="stand")
 					h2 {{stand.label}} - {{session.user.firstName}} {{session.user.lastName}}
 					h4 {{session.user.verein}} {{session.user.manschaft}}
 					
-					div(class="col-xs-5")
+					div(class="col-xs-4")
 						target( zoomlevel="zoomlevel" serie="serie" selectedshotindex="selectedshotindex" scheibe="scheibe" probeecke="probeecke")
-					div(class="col-xs-7")
+					div(class="col-xs-8")
 						.col-xs-12
-							.grayBox
+							div(class="grayBox" ng-hide="empty")
 								//- span(style='font-size:9vmin; float:left; margin-left:1vw; margin-top:-0.4vw; position:absolute; display:block; transform-origin: 50% 50%; -webkit-transform:rotate({{activeShot.winkel}}deg)' ng-bind-html="activeShot.pfeil")
 								table
 									tr
 										td
 											h1 {{activeShot.ring}} 
 												small {{activeShot.teiler}} Teiler
+										td
+											h2 {{schnitt}} &Oslash;
+								table
 									tr
 										td
-											h1 {{gesamt}}
+											h2 {{gesamt}} Ringe
+										td
+											h2 {{anzahlShots}}.
 							ul(class="list-group")
 								li(ng-repeat="serieSum in serieSums track by $index" class="col-xs-3 list-group-item" ) {{serieSum}}
 							
@@ -49,8 +54,8 @@ block body
 	script.
 		var config = !{JSON.stringify(config)};
 		
-		angular.module('dsv.services.staende', ["btford.socket-io"]).
-		factory('staende', ["socketFactory", function (socketFactory) {
+		angular.module('dsv.services.staende', ["btford.socket-io"])
+		.factory('staende', ["socketFactory", function (socketFactory) {
 			var staende = []
 			
 			function watch(stand){
@@ -75,6 +80,47 @@ block body
 			
 			return staende; 
 		}])
+		//- .factory('activeStaendeObj', ["staende", function (staende) {
+		//- 	var activeStaendeObj = {
+		//- 		updates: [],
+		//- 	}
+		//- 	
+		//- 	var update = function(){
+		//- 		activeStaendeObj.activeStaende = []
+		//- 		for (var i in staende){
+		//- 			if (staende[i].isConnected == true){
+		//- 				activeStaendeObj.activeStaende.push(staende[i])
+		//- 			}
+		//- 		}
+		//- 		activeStaendeObj.itemsPerLine = Math.pow(activeStaende.length, 0.5); 
+		//- 	}
+		//- 	
+		//- 	
+		//- 	
+		//- 	for (i in staende){
+		//- 		var stand = staende[i]
+		//- 
+		//- 		stand.socket.on("connect", function(){
+		//- 			update()
+		//- 			activeStaendeObj.update.forEach(function(callback){
+		//- 				callback()
+		//- 			})
+		//- 		})
+		//- 		stand.socket.on("disconnect", function(){
+		//- 			update()
+		//- 			activeStaendeObj.update.forEach(function(callback){
+		//- 				callback()
+		//- 			})
+		//- 		})
+		//- 	}
+		//- 	
+		//- 	
+		//- 	
+		//- 	
+		//- 	return activeStaendeObj
+		//- }])
+		
+		
 		
 		
 		angular.module("dsv", [

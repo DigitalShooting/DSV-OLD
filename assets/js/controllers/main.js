@@ -2,6 +2,8 @@ angular.module('dsv.controllers.main', [])
 
 
 .controller('staende', function ($scope, staende) {
+	var activeStaende = []
+	var itemsPerLine = 0
 
 	function updateUI(){
 		var activeStaende = []
@@ -10,23 +12,21 @@ angular.module('dsv.controllers.main', [])
 				activeStaende.push(staende[i])
 			}
 		}
+		var itemsPerLine = Math.round(Math.pow(activeStaende.length, 0.5))
 
 		$scope.staendeList = []
-		for (var i = 0; i < activeStaende.length; i=i+4){
-			var standLine = [activeStaende[i]]
-			if (i+1 < activeStaende.length){
-				standLine.push(activeStaende[i+1])
-			}
-			if (i+2 < activeStaende.length){
-				standLine.push(activeStaende[i+2])
-			}
-			if (i+3 < activeStaende.length){
-				standLine.push(activeStaende[i+3])
+		for (var i = 0; i < activeStaende.length; i=i+itemsPerLine){
+			var standLine = []
+
+			for (var ii = 0; ii < itemsPerLine; ii++){
+				if (i+ii < activeStaende.length){
+					var s = activeStaende[i+ii]
+					s.index = i+ii
+					standLine.push(s)
+				}
 			}
 			$scope.staendeList.push(standLine)
 		}
-
-		console.log($scope.staendeList)
 	}
 
 	updateUI()
@@ -48,11 +48,24 @@ angular.module('dsv.controllers.main', [])
 
 
 
-.controller('stand', function ($scope, staende) {
+.controller('stand', function ($scope, staende, $timeout) {
+	$scope.empty = true
+	$scope.stand
 
-	$scope.init = function(y, x){
-		var stand = staende[y*4+x]
-		var socket = stand.socket
+	$timeout(function(){
+		$scope.$watch('stand', function(value, old){
+			$scope.stand = value
+			updateUI()
+		})
+
+	})
+
+
+
+
+
+	function updateUI(){
+		var socket = $scope.stand.socket
 
 		socket.emit('getSession', {})
 		socket.on("setSession", function(session){
@@ -76,24 +89,36 @@ angular.module('dsv.controllers.main', [])
 				}
 
 				$scope.gesamt = 0
+				$scope.anzahlShots = 0
 				for (var i in session.serieHistory){
 					for (var ii in session.serieHistory[i]){
 						$scope.gesamt += session.serieHistory[i][ii].ringInt
+						$scope.anzahlShots++
 					}
 				}
+				$scope.schnitt = (Math.round($scope.gesamt / $scope.anzahlShots * 10)/10).toFixed(1)
 
 				$scope.serie = session.serieHistory[session.selection.serie]
 				$scope.selectedshotindex = session.selection.shot
 				$scope.activeShot = session.serieHistory[session.selection.serie][session.selection.shot]
+				$scope.empty = false
 			}
 			else {
 				$scope.serieSums = []
 				$scope.activeShot = undefined
 				$scope.serie = []
 				$scope.selectedshotindex = -1
+				$scope.empty = true
 			}
 
 		})
 	}
+
+	return {
+		scope: {
+			stand: '=',
+		},
+	}
+
 
 })
