@@ -1,6 +1,7 @@
 var network = require("./network.js")
+var staende = require("./staende.js")
 
 module.exports = {
-
-	network	: network,
+	staende: staende,
+	network: network,
 }

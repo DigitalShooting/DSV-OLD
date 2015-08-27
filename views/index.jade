@@ -2,16 +2,82 @@ extends ./layout.jade
 
 block title
 	| DSV
-	
+
 block body
-	- var items = 18
-	
-	- var lines = items
-	- if (lines%3 != 0) lines += 3 - lines%3
-	- lines = lines/3
-	
-	- for (var i = 0; i < items; i++){
-		- var height = 100/ lines
-		div(class="col-lg-4 stand" style="height:#{height}%;")
-			h1 Stand #{i}
-	- }
+	table(ng-controller="staende")
+		tr(ng-repeat="standLine in staendeList track by $index")
+			td(ng-repeat="stand in standLine track by $index")
+				div(ng-controller="stand" ng-init="init($parent.$parent.$index, $parent.$index)")
+					h2 {{stand.label}} - {{session.user.firstName}} {{session.user.lastName}}
+					h4 {{session.user.verein}} {{session.user.manschaft}}
+					
+					div(class="col-xs-5")
+						target( zoomlevel="zoomlevel" serie="serie" selectedshotindex="selectedshotindex" scheibe="scheibe" probeecke="probeecke")
+					div(class="col-xs-7")
+						.col-xs-12
+							.grayBox
+								//- span(style='font-size:9vmin; float:left; margin-left:1vw; margin-top:-0.4vw; position:absolute; display:block; transform-origin: 50% 50%; -webkit-transform:rotate({{activeShot.winkel}}deg)' ng-bind-html="activeShot.pfeil")
+								table
+									tr
+										td
+											h1 {{activeShot.ring}} 
+												small {{activeShot.teiler}} Teiler
+									tr
+										td
+											h1 {{gesamt}}
+							ul(class="list-group")
+								li(ng-repeat="serieSum in serieSums track by $index" class="col-xs-3 list-group-item" ) {{serieSum}}
+							
+						//- .col-xs-6
+						//- 	.grayBox
+						//- 		h3 Aktuelle Serie
+						//- 		table
+						//- 			tr(ng-repeat="shot in session.serieHistory[session.selection.serie] track by $index" )
+						//- 				td {{shot.number}}.
+						//- 				td {{shot.ring}}
+						//- 				//- td
+						//- 				//- 	span(style="margin-top:-2.2vh; display:block; margin-top: 4%; transform-origin: 50% 50%; -webkit-transform:rotate({{shot.winkel}}deg)" ng-bind-html="shot.arrow")
+						//- 	
+						//- .col-xs-6
+						//- 	.grayBox
+						//- 		h3 Serien
+						//- 		ul(class="list-inline" )
+						//- 			li(ng-repeat="serieSum in serieSums track by $index" class="col-xs-3") {{serieSum}}
+						
+						
+						
+	script.
+		var config = !{JSON.stringify(config)};
+		
+		angular.module('dsv.services.staende', ["btford.socket-io"]).
+		factory('staende', ["socketFactory", function (socketFactory) {
+			var staende = []
+			
+			function watch(stand){
+				stand.socket.on("connect", function(){
+					stand.isConnected = true
+				})
+				stand.socket.on("disconnect", function(){
+					stand.isConnected = false
+				})
+			}
+			
+			for (var key in config.staende){
+				var stand = config.staende[key]
+				stand.socket = socketFactory({
+					ioSocket: io.connect(stand.ip+":"+stand.port)
+				})
+				
+				watch(stand)
+				
+				staende.push(stand)
+			}
+			
+			return staende; 
+		}])
+		
+		
+		angular.module("dsv", [
+			"dsv.services.grafik", "dsv.services.staende",
+			"dsv.controllers.main",
+		])

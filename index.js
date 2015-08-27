@@ -11,11 +11,14 @@ app.set('view engine', 'jade');
 
 
 app.use("/js/", express.static("./assets/js"))
-app.use("/js/", express.static("./node_modules/jquery/dist"))
+app.use("/libs/", express.static("./assets/libs"))
 
 app.use("/css/", expressLess(__dirname + "/stylesheets"))
 
 app.get("/", function(req, res){
+	res.locals.config = {
+		staende: config.staende,
+	}
 	res.render("index.jade")
 })
 
@@ -36,7 +39,7 @@ var io = require("socket.io")(server)
 
 io.on("connection", function (socket) {
 
-	s.on("start", function (data) {
+	io.on("start", function (data) {
 		console.log("New Client Connected");
 
 	})

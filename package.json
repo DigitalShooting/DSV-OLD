@@ -1,16 +1,16 @@
 {
-	"name": "DSV",
-	"version": "0.0.0",
-	"description": "",
-	"main": "index.js",
-	"author": "Jannik Lorenz",
-	"private": true,
-	"dependencies": {
-		"express": "x",
-		"socket.io": "x",
-		"jade": "x",
-		"bootstrap": "x",
-		"jquery": "x",
-		"express-less": "x"
-	}
+  "name": "DSV",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Jannik Lorenz",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "x",
+    "express": "x",
+    "express-less": "x",
+    "jade": "x",
+    "jquery": "x",
+    "socket.io": "^1.3.6"
+  }
 }

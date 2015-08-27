@@ -1,5 +1,5 @@
 doctype html
-html(lang="en")
+html(lang="en" ng-app="dsv")
 	head
 		title 
 			block title
@@ -8,7 +8,24 @@ html(lang="en")
 		
 		link(href="/css/style.css", rel="stylesheet")
 		
-		script(src="/js/jquery.min.js")
-		script(src="/js/bootstrap.min.js")
+		// jquery
+		script(src="/libs/jquery/dist/jquery.js")
+		
+		// bootstrap
+		script(src="/libs/bootstrap/dist/js/bootstrap.min.js")
+		//- link(href="/libs/bootstrap/dist/css/bootstrap.min.css", rel="stylesheet")
+		
+		// Angular
+		script(src="/libs/angularjs/angular.min.js")
+		script(src='/libs/angular-route/angular-route.js')
+		
+		// Socket io
+		script(src="/socket.io/socket.io.js")
+		script(src="/libs/angular-socket-io/socket.js")
+		
+		script(src='js/services/grafik.js')
+		//- script(src='js/services/socketio.js')
+		script(src='js/controllers/main.js')
+
 	body
 		block body
