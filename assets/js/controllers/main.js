@@ -98,10 +98,27 @@ angular.module('dsv.controllers.main', [])
 				}
 				$scope.schnitt = (Math.round($scope.gesamt / $scope.anzahlShots * 10)/10).toFixed(1)
 
+
 				$scope.serie = session.serieHistory[session.selection.serie]
 				$scope.selectedshotindex = session.selection.shot
 				$scope.activeShot = session.serieHistory[session.selection.serie][session.selection.shot]
 				$scope.empty = false
+
+
+
+				if ($scope.serie != undefined && $scope.serie.length != 0) {
+					var ringInt = $scope.serie[session.selection.shot].ringInt
+					var ring = $scope.scheibe.ringe[$scope.scheibe.ringe.length - ringInt]
+
+					if (ring){
+						$scope.zoomlevel = ring.zoom
+					}
+					else if (ringInt == 0){
+						$scope.zoomlevel = scheibe.minZoom
+					}
+				}
+
+
 			}
 			else {
 				$scope.serieSums = []

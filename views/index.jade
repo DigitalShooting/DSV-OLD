@@ -30,25 +30,8 @@ block body
 											h2 {{gesamt}} Ringe
 										td
 											h2 {{anzahlShots}}.
-							ul(class="list-group")
-								li(ng-repeat="serieSum in serieSums track by $index" class="col-xs-3 list-group-item" ) {{serieSum}}
-							
-						//- .col-xs-6
-						//- 	.grayBox
-						//- 		h3 Aktuelle Serie
-						//- 		table
-						//- 			tr(ng-repeat="shot in session.serieHistory[session.selection.serie] track by $index" )
-						//- 				td {{shot.number}}.
-						//- 				td {{shot.ring}}
-						//- 				//- td
-						//- 				//- 	span(style="margin-top:-2.2vh; display:block; margin-top: 4%; transform-origin: 50% 50%; -webkit-transform:rotate({{shot.winkel}}deg)" ng-bind-html="shot.arrow")
-						//- 	
-						//- .col-xs-6
-						//- 	.grayBox
-						//- 		h3 Serien
-						//- 		ul(class="list-inline" )
-						//- 			li(ng-repeat="serieSum in serieSums track by $index" class="col-xs-3") {{serieSum}}
-						
+							//- ul(class="list-group")
+							//- 	li(ng-repeat="serieSum in serieSums track by $index" class="col-xs-3 list-group-item" ) {{serieSum}}
 						
 						
 	script.
