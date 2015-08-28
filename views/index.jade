@@ -8,30 +8,38 @@ block body
 		tr(ng-repeat="standLine in staendeList" class="animate")
 			td(ng-repeat="stand in standLine" class="animate")
 				div(ng-controller="stand" stand="stand")
-					h2 {{stand.label}} - {{session.user.firstName}} {{session.user.lastName}}
-					h4 {{session.user.verein}} {{session.user.manschaft}}
+					//- h2 {{stand.label}} - {{session.user.firstName}} {{session.user.lastName}}
+					//- h4 {{session.user.verein}} {{session.user.manschaft}}
+					div(class="standLabel")
+						h1 {{stand.labelShort}}
 					
 					div(class="col-xs-4")
 						target( zoomlevel="zoomlevel" serie="serie" selectedshotindex="selectedshotindex" scheibe="scheibe" probeecke="probeecke")
 					div(class="col-xs-8")
 						.col-xs-12
-							div(class="grayBox" ng-hide="empty")
+							h1 {{session.user.firstName}} {{session.user.lastName}}
+							h4 {{session.user.verein}} {{session.user.manschaft}}
+							br
+							div(class="grayBoxp" ng-hide="empty")
 								//- span(style='font-size:9vmin; float:left; margin-left:1vw; margin-top:-0.4vw; position:absolute; display:block; transform-origin: 50% 50%; -webkit-transform:rotate({{activeShot.winkel}}deg)' ng-bind-html="activeShot.pfeil")
 								table
 									tr
 										td
 											h1 {{activeShot.ring}} 
-												small {{activeShot.teiler}} Teiler
+												//- small {{activeShot.teiler}} Teiler
 										td
-											h2 {{schnitt}} &Oslash;
+											h4 {{schnitt}} &Oslash;
+								
 								table
 									tr
 										td
 											h2 {{gesamt}} Ringe
 										td
-											h2 {{anzahlShots}}.
-							//- ul(class="list-group")
-							//- 	li(ng-repeat="serieSum in serieSums track by $index" class="col-xs-3 list-group-item" ) {{serieSum}}
+											h4 {{anzahlShots}}.
+							br
+							ul(class="list-group")
+								li(ng-repeat="serieSum in serieSums track by $index" class="col-xs-3 list-group-item" )
+									h4 {{serieSum}}
 						
 						
 	script.
