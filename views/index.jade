@@ -5,8 +5,8 @@ block title
 
 block body
 	table(ng-controller="staende")
-		tr(ng-repeat="standLine in staendeList track by $index")
-			td(ng-repeat="stand in standLine track by $index")
+		tr(ng-repeat="standLine in staendeList" class="animate")
+			td(ng-repeat="stand in standLine" class="animate")
 				div(ng-controller="stand" stand="stand")
 					h2 {{stand.label}} - {{session.user.firstName}} {{session.user.lastName}}
 					h4 {{session.user.verein}} {{session.user.manschaft}}
@@ -109,4 +109,6 @@ block body
 		angular.module("dsv", [
 			"dsv.services.grafik", "dsv.services.staende",
 			"dsv.controllers.main",
+			
+			"ngAnimate",
 		])

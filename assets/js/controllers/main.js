@@ -13,6 +13,7 @@ angular.module('dsv.controllers.main', [])
 			}
 		}
 		var itemsPerLine = Math.round(Math.pow(activeStaende.length, 0.5))
+		if (itemsPerLine < 2) itemsPerLine = 2
 
 		$scope.staendeList = []
 		for (var i = 0; i < activeStaende.length; i=i+itemsPerLine){
@@ -54,15 +55,11 @@ angular.module('dsv.controllers.main', [])
 
 	$timeout(function(){
 		$scope.$watch('stand', function(value, old){
+			console.log(value)
 			$scope.stand = value
 			updateUI()
 		})
-
 	})
-
-
-
-
 
 	function updateUI(){
 		var socket = $scope.stand.socket
@@ -98,13 +95,10 @@ angular.module('dsv.controllers.main', [])
 				}
 				$scope.schnitt = (Math.round($scope.gesamt / $scope.anzahlShots * 10)/10).toFixed(1)
 
-
 				$scope.serie = session.serieHistory[session.selection.serie]
 				$scope.selectedshotindex = session.selection.shot
 				$scope.activeShot = session.serieHistory[session.selection.serie][session.selection.shot]
 				$scope.empty = false
-
-
 
 				if ($scope.serie != undefined && $scope.serie.length != 0) {
 					var ringInt = $scope.serie[session.selection.shot].ringInt
@@ -117,8 +111,6 @@ angular.module('dsv.controllers.main', [])
 						$scope.zoomlevel = scheibe.minZoom
 					}
 				}
-
-
 			}
 			else {
 				$scope.serieSums = []
@@ -127,7 +119,6 @@ angular.module('dsv.controllers.main', [])
 				$scope.selectedshotindex = -1
 				$scope.empty = true
 			}
-
 		})
 	}
 
