@@ -1,40 +1,40 @@
 angular.module('dsv.controllers.main', [])
 
 
-.controller('staende', function ($scope, staende) {
-	var activeStaende = []
+.controller('lines', function ($scope, lines) {
+	var activelines = []
 	var itemsPerLine = 0
 
 	function updateUI(){
-		var activeStaende = []
-		for (var i in staende){
-			if (staende[i].isConnected == true){
-				activeStaende.push(staende[i])
+		var activelines = []
+		for (var i in lines){
+			if (lines[i].isConnected == true){
+				activelines.push(lines[i])
 			}
 		}
-		var itemsPerLine = Math.round(Math.pow(activeStaende.length, 0.5))
+		var itemsPerLine = Math.round(Math.pow(activelines.length, 0.5))
 		if (itemsPerLine < 2) itemsPerLine = 2
 
-		$scope.staendeList = []
-		for (var i = 0; i < activeStaende.length; i=i+itemsPerLine){
+		$scope.linesList = []
+		for (var i = 0; i < activelines.length; i=i+itemsPerLine){
 			var standLine = []
 
 			for (var ii = 0; ii < itemsPerLine; ii++){
-				if (i+ii < activeStaende.length){
-					var s = activeStaende[i+ii]
+				if (i+ii < activelines.length){
+					var s = activelines[i+ii]
 					s.index = i+ii
 					standLine.push(s)
 				}
 			}
-			$scope.staendeList.push(standLine)
+			$scope.linesList.push(standLine)
 		}
 	}
 
 	updateUI()
 
 
-	for (i in staende){
-		var stand = staende[i]
+	for (i in lines){
+		var stand = lines[i]
 
 		stand.socket.on("connect", function(){
 			updateUI()
@@ -49,13 +49,12 @@ angular.module('dsv.controllers.main', [])
 
 
 
-.controller('stand', function ($scope, staende, $timeout) {
+.controller('stand', function ($scope, lines, $timeout) {
 	$scope.empty = true
 	$scope.stand
 
 	$timeout(function(){
 		$scope.$watch('stand', function(value, old){
-			console.log(value)
 			$scope.stand = value
 			updateUI()
 		})

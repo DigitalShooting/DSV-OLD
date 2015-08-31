@@ -4,8 +4,8 @@ block title
 	| DSV
 
 block body
-	table(ng-controller="staende")
-		tr(ng-repeat="standLine in staendeList" class="animate")
+	table(ng-controller="lines")
+		tr(ng-repeat="standLine in linesList" class="animate")
 			td(ng-repeat="stand in standLine" class="animate")
 				div(ng-controller="stand" stand="stand")
 					//- h2 {{stand.label}} - {{session.user.firstName}} {{session.user.lastName}}
@@ -45,9 +45,9 @@ block body
 	script.
 		var config = !{JSON.stringify(config)};
 		
-		angular.module('dsv.services.staende', ["btford.socket-io"])
-		.factory('staende', ["socketFactory", function (socketFactory) {
-			var staende = []
+		angular.module('dsv.services.lines', ["btford.socket-io"])
+		.factory('lines', ["socketFactory", function (socketFactory) {
+			var lines = []
 			
 			function watch(stand){
 				stand.socket.on("connect", function(){
@@ -58,48 +58,48 @@ block body
 				})
 			}
 			
-			for (var key in config.staende){
-				var stand = config.staende[key]
+			for (var key in config.lines){
+				var stand = config.lines[key]
 				stand.socket = socketFactory({
 					ioSocket: io.connect(stand.ip+":"+stand.port)
 				})
 				
 				watch(stand)
 				
-				staende.push(stand)
+				lines.push(stand)
 			}
 			
-			return staende; 
+			return lines; 
 		}])
-		//- .factory('activeStaendeObj', ["staende", function (staende) {
-		//- 	var activeStaendeObj = {
+		//- .factory('activelinesObj', ["lines", function (lines) {
+		//- 	var activelinesObj = {
 		//- 		updates: [],
 		//- 	}
 		//- 	
 		//- 	var update = function(){
-		//- 		activeStaendeObj.activeStaende = []
-		//- 		for (var i in staende){
-		//- 			if (staende[i].isConnected == true){
-		//- 				activeStaendeObj.activeStaende.push(staende[i])
+		//- 		activelinesObj.activelines = []
+		//- 		for (var i in lines){
+		//- 			if (lines[i].isConnected == true){
+		//- 				activelinesObj.activelines.push(lines[i])
 		//- 			}
 		//- 		}
-		//- 		activeStaendeObj.itemsPerLine = Math.pow(activeStaende.length, 0.5); 
+		//- 		activelinesObj.itemsPerLine = Math.pow(activelines.length, 0.5); 
 		//- 	}
 		//- 	
 		//- 	
 		//- 	
-		//- 	for (i in staende){
-		//- 		var stand = staende[i]
+		//- 	for (i in lines){
+		//- 		var stand = lines[i]
 		//- 
 		//- 		stand.socket.on("connect", function(){
 		//- 			update()
-		//- 			activeStaendeObj.update.forEach(function(callback){
+		//- 			activelinesObj.update.forEach(function(callback){
 		//- 				callback()
 		//- 			})
 		//- 		})
 		//- 		stand.socket.on("disconnect", function(){
 		//- 			update()
-		//- 			activeStaendeObj.update.forEach(function(callback){
+		//- 			activelinesObj.update.forEach(function(callback){
 		//- 				callback()
 		//- 			})
 		//- 		})
@@ -108,14 +108,14 @@ block body
 		//- 	
 		//- 	
 		//- 	
-		//- 	return activeStaendeObj
+		//- 	return activelinesObj
 		//- }])
 		
 		
 		
 		
 		angular.module("dsv", [
-			"dsv.services.grafik", "dsv.services.staende",
+			"dsv.services.grafik", "dsv.services.lines",
 			"dsv.controllers.main",
 			
 			"ngAnimate",

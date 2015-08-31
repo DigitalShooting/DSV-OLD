@@ -17,7 +17,7 @@ app.use("/css/", expressLess(__dirname + "/stylesheets"))
 
 app.get("/", function(req, res){
 	res.locals.config = {
-		staende: config.staende,
+		lines: config.lines,
 	}
 	res.render("index.jade")
 })
