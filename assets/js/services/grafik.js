@@ -34,7 +34,7 @@ angular.module('dsv.services.grafik', [])
 
 					context.fill();
 					context.strokeStyle = ring.textColor
-					context.lineWidth = 4;
+					context.lineWidth = 15;
 					context.stroke();
 					context.fillStyle = "black";
 
@@ -59,7 +59,7 @@ angular.module('dsv.services.grafik', [])
 
 					context.fill();
 					context.strokeStyle = ring.textColor
-					context.lineWidth = 4;
+					context.lineWidth = 15;
 					context.stroke();
 					context.fillStyle = "black";
 				}

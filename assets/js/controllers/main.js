@@ -76,7 +76,7 @@ angular.module('dsv.controllers.main', [])
 				$scope.activeSerie = session.serieHistory[session.selection.serie]
 
 				$scope.serieSums = []
-				for (var i = (session.serieHistory.length<8 ? 0 : session.serieHistory.length-8); i < session.serieHistory.length; i++){
+				for (var i = (session.serieHistory.length<4 ? 0 : session.serieHistory.length-8); i < session.serieHistory.length; i++){
 					var sum = 0
 					for (var ii in session.serieHistory[i]){
 						sum += session.serieHistory[i][ii].ringInt
