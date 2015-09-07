@@ -101,13 +101,13 @@ angular.module('dsv.services.grafik', [])
 
 			function drawMode(context, scheibe, serie, zoom, selectedShotIndex){
 				if (serie){
-					for (i in serie){
+					for (i in serie.shots){
 						if (i != selectedShotIndex){
-							drawShot(context, scheibe, serie[i], zoom, false)
+							drawShot(context, scheibe, serie.shots[i], zoom, false)
 						}
 					}
-					if (serie.length > selectedShotIndex && selectedShotIndex > -1){
-						var selectedShot = serie[selectedShotIndex]
+					if (serie.shots.length > selectedShotIndex && selectedShotIndex > -1){
+						var selectedShot = serie.shots[selectedShotIndex]
 						drawShot(context, scheibe, selectedShot, zoom, true)
 					}
 				}

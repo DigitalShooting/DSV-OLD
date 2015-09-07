@@ -19,26 +19,24 @@ block body
 							h4 {{session.user.verein}} {{session.user.manschaft}}
 							br
 							div(class="grayBoxp" ng-hide="empty")
-								//- span(style='font-size:9vmin; float:left; margin-left:1vw; margin-top:-0.4vw; position:absolute; display:block; transform-origin: 50% 50%; -webkit-transform:rotate({{activeShot.winkel}}deg)' ng-bind-html="activeShot.pfeil")
 								table
 									tr
 										td
 											h1 {{activeShot.ring}} 
-												//- small {{activeShot.teiler}} Teiler
 										td
-											h2 {{anzahlShots}}.
+											h2 {{session.anzahl}}.
 								
 								table
 									tr
 										td
-											h2 {{schnitt}} &Oslash;
+											h2 {{session.schnitt}} &Oslash;
 										td
-											h2 {{gesamt}} Ringe
+											h2 {{session.gesamt}} Ringe
 							br
 							table(class="table")
 								tr
-									td(ng-repeat="serieSum in serieSums track by $index" class="" )
-										h2 {{serieSum}}
+									td(ng-repeat="serie in session.serien track by $index" class="" )
+										h2 {{serie.gesamt}}
 						
 						
 	script.
