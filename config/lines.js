@@ -1,13 +1,13 @@
 module.exports = {
-	standTest1 : {
-		_id: "standTest1",
-		label: "Stand Test 1",
-		labelShort: "1",
-		user: "firebug",
-		ip: "127.0.0.1",
-		port: "3001",
-		mac: "",
-	},
+	// standTest1 : {
+	// 	_id: "standTest1",
+	// 	label: "Stand Test 1",
+	// 	labelShort: "1",
+	// 	user: "firebug",
+	// 	ip: "127.0.0.1",
+	// 	port: "3001",
+	// 	mac: "",
+	// },
 	// standTest2 : {
 	// 	_id: "standTest2",
 	// 	label: "Stand Test 2",
@@ -109,7 +109,7 @@ module.exports = {
 	// },
 
 
-	/*
+
 	stand1 : {
 		_id: "stand1",
 		label: "Stand 1",
@@ -218,5 +218,4 @@ module.exports = {
 		port: "3000",
 		mac: "00:12:3f:94:69:6d",
 	},
-	*/
 }
