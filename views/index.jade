@@ -68,48 +68,7 @@ block body
 			
 			return lines; 
 		}])
-		//- .factory('activelinesObj', ["lines", function (lines) {
-		//- 	var activelinesObj = {
-		//- 		updates: [],
-		//- 	}
-		//- 	
-		//- 	var update = function(){
-		//- 		activelinesObj.activelines = []
-		//- 		for (var i in lines){
-		//- 			if (lines[i].isConnected == true){
-		//- 				activelinesObj.activelines.push(lines[i])
-		//- 			}
-		//- 		}
-		//- 		activelinesObj.itemsPerLine = Math.pow(activelines.length, 0.5); 
-		//- 	}
-		//- 	
-		//- 	
-		//- 	
-		//- 	for (i in lines){
-		//- 		var stand = lines[i]
-		//- 
-		//- 		stand.socket.on("connect", function(){
-		//- 			update()
-		//- 			activelinesObj.update.forEach(function(callback){
-		//- 				callback()
-		//- 			})
-		//- 		})
-		//- 		stand.socket.on("disconnect", function(){
-		//- 			update()
-		//- 			activelinesObj.update.forEach(function(callback){
-		//- 				callback()
-		//- 			})
-		//- 		})
-		//- 	}
-		//- 	
-		//- 	
-		//- 	
-		//- 	
-		//- 	return activelinesObj
-		//- }])
-		
-		
-		
+
 		
 		angular.module("dsv", [
 			"dsv.services.grafik", "dsv.services.lines",
