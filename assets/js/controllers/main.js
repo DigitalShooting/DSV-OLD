@@ -72,35 +72,14 @@ angular.module('dsv.controllers.main', [])
 
 			$scope.session = session
 
-			if (session.serieHistory.length > 0){
-				$scope.activeSerie = session.serieHistory[session.selection.serie]
-
-				$scope.serieSums = []
-				for (var i = (session.serieHistory.length<4 ? 0 : session.serieHistory.length-4); i < session.serieHistory.length; i++){
-					var sum = 0
-					for (var ii in session.serieHistory[i]){
-						sum += session.serieHistory[i][ii].ringInt
-					}
-					$scope.serieSums.push(sum)
-				}
-
-				$scope.gesamt = 0
-				$scope.anzahlShots = 0
-				for (var i in session.serieHistory){
-					for (var ii in session.serieHistory[i]){
-						$scope.gesamt += session.serieHistory[i][ii].ringInt
-						$scope.anzahlShots++
-					}
-				}
-				$scope.schnitt = (Math.round($scope.gesamt / $scope.anzahlShots * 10)/10).toFixed(1)
-
-				$scope.serie = session.serieHistory[session.selection.serie]
+			if (session.serien.length > 0){
+				$scope.serie = session.serien[session.selection.serie]
 				$scope.selectedshotindex = session.selection.shot
-				$scope.activeShot = session.serieHistory[session.selection.serie][session.selection.shot]
+				$scope.activeShot = session.serien[session.selection.serie].shots[session.selection.shot]
 				$scope.empty = false
 
 				if ($scope.serie != undefined && $scope.serie.length != 0) {
-					var ringInt = $scope.serie[session.selection.shot].ringInt
+					var ringInt = $scope.serie.shots[session.selection.shot].ringInt
 					var ring = $scope.scheibe.ringe[$scope.scheibe.ringe.length - ringInt]
 
 					if (ring){
