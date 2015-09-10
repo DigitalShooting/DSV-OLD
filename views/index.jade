@@ -1,78 +1,103 @@
-extends ./layout.jade
+doctype html
+html(lang="en" ng-app="dsv")
+	head
+		title DSV
+			
+		meta(name="viewport", content="width=device-width")
+		
+		link(href="/css/style.css", rel="stylesheet")
+		
+		// jquery
+		script(src="/libs/jquery/dist/jquery.js")
+		
+		// bootstrap
+		script(src="/libs/bootstrap/dist/js/bootstrap.min.js")
+		//- link(href="/libs/bootstrap/dist/css/bootstrap.min.css", rel="stylesheet")
+		
+		// Angular
+		script(src="/libs/angularjs/angular.min.js")
+		script(src='/libs/angular-route/angular-route.js')
+		script(src='/libs/angular-animate/angular-animate.min.js')
+		
+		
+		// Socket io
+		script(src="/socket.io/socket.io.js")
+		script(src="/libs/angular-socket-io/socket.js")
+		
+		script(src='js/services/grafik.js')
+		//- script(src='js/services/socketio.js')
+		script(src='js/controllers/main.js')
 
-block title
-	| DSV
-
-block body
-	table(ng-controller="lines")
-		tr(ng-repeat="standLine in linesList" class="animate")
-			td(ng-repeat="stand in standLine" class="animate")
-				div(ng-controller="stand" stand="stand")
-					div(class="standLabel")
-						h1 {{stand.labelShort}}
+	body
+		table(ng-controller="lines")
+			tr(ng-repeat="standLine in linesList" class="animate")
+				td(ng-repeat="stand in standLine" class="animate")
+					div(ng-controller="stand" stand="stand")
+						div(class="standLabel")
+							h1 {{stand.labelShort}}
+						
+						div(class="col-xs-5")
+							target( zoomlevel="zoomlevel" serie="serie" selectedshotindex="selectedshotindex" scheibe="scheibe" probeecke="probeecke")
+						div(class="col-xs-7")
+							.col-xs-12
+								h2 {{session.user.firstName}} {{session.user.lastName}}
+								h4 {{session.user.verein}} {{session.user.manschaft}}
+								br
+								div(class="grayBoxp" ng-hide="empty")
+									table
+										tr
+											td
+												h1 {{activeShot.ring}} 
+											td
+												h2 {{session.anzahl}}.
+									
+									table
+										tr
+											td
+												h2 {{session.schnitt}} &Oslash;
+											td
+												h2 {{session.gesamt}} Ringe
+								br
+								table(class="table")
+									tr
+										td(ng-repeat="serie in session.serien track by $index" class="" )
+											h2 {{serie.gesamt}}
+							
+							
+		script.
+			var config = !{JSON.stringify(config)};
+			
+			angular.module('dsv.services.lines', ["btford.socket-io"])
+			.factory('lines', ["socketFactory", function (socketFactory) {
+				var lines = []
+				
+				function watch(stand){
+					stand.socket.on("connect", function(){
+						stand.isConnected = true
+					})
+					stand.socket.on("disconnect", function(){
+						stand.isConnected = false
+					})
+				}
+				
+				for (var key in config.lines){
+					var stand = config.lines[key]
+					stand.socket = socketFactory({
+						ioSocket: io.connect(stand.ip+":"+stand.port)
+					})
 					
-					div(class="col-xs-5")
-						target( zoomlevel="zoomlevel" serie="serie" selectedshotindex="selectedshotindex" scheibe="scheibe" probeecke="probeecke")
-					div(class="col-xs-7")
-						.col-xs-12
-							h2 {{session.user.firstName}} {{session.user.lastName}}
-							h4 {{session.user.verein}} {{session.user.manschaft}}
-							br
-							div(class="grayBoxp" ng-hide="empty")
-								table
-									tr
-										td
-											h1 {{activeShot.ring}} 
-										td
-											h2 {{session.anzahl}}.
-								
-								table
-									tr
-										td
-											h2 {{session.schnitt}} &Oslash;
-										td
-											h2 {{session.gesamt}} Ringe
-							br
-							table(class="table")
-								tr
-									td(ng-repeat="serie in session.serien track by $index" class="" )
-										h2 {{serie.gesamt}}
-						
-						
-	script.
-		var config = !{JSON.stringify(config)};
-		
-		angular.module('dsv.services.lines', ["btford.socket-io"])
-		.factory('lines', ["socketFactory", function (socketFactory) {
-			var lines = []
-			
-			function watch(stand){
-				stand.socket.on("connect", function(){
-					stand.isConnected = true
-				})
-				stand.socket.on("disconnect", function(){
-					stand.isConnected = false
-				})
-			}
-			
-			for (var key in config.lines){
-				var stand = config.lines[key]
-				stand.socket = socketFactory({
-					ioSocket: io.connect(stand.ip+":"+stand.port)
-				})
+					watch(stand)
+					
+					lines.push(stand)
+				}
 				
-				watch(stand)
-				
-				lines.push(stand)
-			}
-			
-			return lines; 
-		}])
+				return lines; 
+			}])
 
-		
-		angular.module("dsv", [
-			"dsv.services.grafik", "dsv.services.lines",
-			"dsv.controllers.main",
 			
-			"ngAnimate",
-		])
+			angular.module("dsv", [
+				"dsv.services.grafik", "dsv.services.lines",
+				"dsv.controllers.main",
+				
+				"ngAnimate",
+			])
