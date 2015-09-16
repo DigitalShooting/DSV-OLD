@@ -12,6 +12,9 @@ angular.module('dsv.controllers.main', [])
 				activelines.push(lines[i])
 			}
 		}
+
+		$scope.hidden = lines.length != 0
+
 		var itemsPerLine = Math.round(Math.pow(activelines.length, 0.5))
 		if (itemsPerLine < 2) itemsPerLine = 2
 

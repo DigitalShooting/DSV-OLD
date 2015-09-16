@@ -12,7 +12,6 @@ html(lang="en" ng-app="dsv")
 		
 		// bootstrap
 		script(src="/libs/bootstrap/dist/js/bootstrap.min.js")
-		//- link(href="/libs/bootstrap/dist/css/bootstrap.min.css", rel="stylesheet")
 		
 		// Angular
 		script(src="/libs/angularjs/angular.min.js")
@@ -25,13 +24,18 @@ html(lang="en" ng-app="dsv")
 		script(src="/libs/angular-socket-io/socket.js")
 		
 		script(src='js/services/grafik.js')
-		//- script(src='js/services/socketio.js')
 		script(src='js/controllers/main.js')
 
-	body
-		table(ng-controller="lines")
+	body(ng-controller="lines")
+		table(ng-hide="hidden")
+			tr
+				td
+					div(class="alert alert-info" role="alert")
+						b Keine Aktiven Stände 
+						| Aktuell sind keine Stände Online
+		table
 			tr(ng-repeat="standLine in linesList" class="animate")
-				td(ng-repeat="stand in standLine" class="animate")
+				td(ng-repeat="stand in standLine" class="animate top")
 					div(ng-controller="stand" stand="stand")
 						div(class="standLabel")
 							h1 {{stand.labelShort}}
