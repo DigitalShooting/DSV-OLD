@@ -2,7 +2,7 @@
 
 Häring Scheibenanzeige using NodeJS
 
-![alt text](https://raw.githubusercontent.com/DigitalShooting/DSV/master/_doku/DSV_1.png"")
+![alt text](https://raw.githubusercontent.com/DigitalShooting/assets/master/DSV_1.png"")
 
 
 
