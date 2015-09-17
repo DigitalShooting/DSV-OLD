@@ -64,18 +64,20 @@ angular.module('dsv.services.grafik', [])
 					context.fillStyle = "black";
 				}
 
-				for (var i = scheibe.rechteckDrawOnly.length-1; i >= 0; i--){
-					var rechteck = scheibe.rechteckDrawOnly[i]
+				if (scheibe.rechteckDrawOnly != undefined){
+					for (var i = scheibe.rechteckDrawOnly.length-1; i >= 0; i--){
+						var rechteck = scheibe.rechteckDrawOnly[i]
 
-					context.beginPath()
-					context.globalAlpha = 1.0
-					context.fillStyle = rechteck.color
-					context.fillRect(
-						zoom.offset.x-rechteck.width/2*zoom.scale,
-						zoom.offset.y-rechteck.height/2*zoom.scale,
-						rechteck.width*zoom.scale,
-						rechteck.height*zoom.scale
-					)
+						context.beginPath()
+						context.globalAlpha = 1.0
+						context.fillStyle = rechteck.color
+						context.fillRect(
+							zoom.offset.x-rechteck.width/2*zoom.scale,
+							zoom.offset.y-rechteck.height/2*zoom.scale,
+							rechteck.width*zoom.scale,
+							rechteck.height*zoom.scale
+						)
+					}
 				}
 
 				// Probeecke
