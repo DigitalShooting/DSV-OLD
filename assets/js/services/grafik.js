@@ -122,9 +122,11 @@ angular.module('dsv.services.grafik', [])
 							drawShot(context, scheibe, serie.shots[i], zoom, false)
 						}
 					}
-					if (serie.shots.length > selectedShotIndex && selectedShotIndex > -1){
-						var selectedShot = serie.shots[selectedShotIndex]
-						drawShot(context, scheibe, selectedShot, zoom, true)
+					if (serie.shots){
+						if (serie.shots.length > selectedShotIndex && selectedShotIndex > -1){
+							var selectedShot = serie.shots[selectedShotIndex]
+							drawShot(context, scheibe, selectedShot, zoom, true)
+						}
 					}
 				}
 			}
