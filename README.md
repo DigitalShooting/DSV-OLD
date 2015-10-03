@@ -1,6 +1,6 @@
 # DigitalShootingView (DSV)
 
-Häring Scheibenanzeige using NodeJS
+Scheibenanzeige für DSCs
 
 ![alt text](https://raw.githubusercontent.com/DigitalShooting/assets/master/DSV_1.png)
 
