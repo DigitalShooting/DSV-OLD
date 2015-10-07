@@ -34,11 +34,3 @@ server.on("listening", function() {
 
 // socket init
 var io = require("socket.io")(server)
-io.on("connection", function (socket) {
-
-	io.on("start", function (data) {
-		console.log("New Client Connected");
-
-	})
-
-})
