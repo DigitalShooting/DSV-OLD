@@ -76,6 +76,13 @@ angular.module('dsv.controllers.main', [])
 			$scope.session = session
 
 			if (session.serien.length > 0){
+
+				// SHow only last 4 serien (5-1)
+				$scope.lastSerien = []
+				for (var i = session.serien.length-1; i > session.serien.length-5; i--){
+					$scope.lastSerien.unshift(session.serien[i])
+				}
+
 				$scope.serie = session.serien[session.selection.serie]
 				$scope.selectedshotindex = session.selection.shot
 				$scope.activeShot = session.serien[session.selection.serie].shots[session.selection.shot]
