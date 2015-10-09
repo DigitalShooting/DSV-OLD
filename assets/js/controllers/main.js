@@ -74,12 +74,13 @@ angular.module('dsv.controllers.main', [])
 			$scope.probeecke = session.disziplin.parts[session.type].probeEcke
 
 			$scope.session = session
+			$scope.lastSerien = []
 
 			if (session.serien.length > 0){
 
 				// SHow only last 4 serien (5-1)
-				$scope.lastSerien = []
-				for (var i = session.serien.length-1; i > session.serien.length-5; i--){
+				for (var i = session.serien.length-1; (i > session.serien.length-5 && i >= 0); i--){
+					console.log(i)
 					$scope.lastSerien.unshift(session.serien[i])
 				}
 
