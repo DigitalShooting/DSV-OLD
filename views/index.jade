@@ -71,9 +71,6 @@ html(lang="en" ng-app="dsv")
 									tr
 										td(ng-repeat="serie in lastSerien track by $index" class="" )
 											h2 {{serie.gesamt}}
-
-		script.
-			var config = !{JSON.stringify(config)};
 			
 		// Main JS init
 		script(src='js/index.js') 
