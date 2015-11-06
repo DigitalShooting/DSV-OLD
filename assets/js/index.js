@@ -1,28 +1,10 @@
 angular.module('dsv.services.lines', ["btford.socket-io"])
-.factory('lines', ["socketFactory", function (socketFactory) {
-	var lines = []
+.factory('gatewaySocket', ["socketFactory", function (socketFactory) {
+	var gatewaySocket = socketFactory({
+		ioSocket: io.connect("127.0.0.1:4000")
+	})
 
-	function watch(stand){
-		stand.socket.on("connect", function(){
-			stand.isConnected = true
-		})
-		stand.socket.on("disconnect", function(){
-			stand.isConnected = false
-		})
-	}
-
-	for (var key in config.lines){
-		var stand = config.lines[key]
-		stand.socket = socketFactory({
-			ioSocket: io.connect(stand.ip+":"+stand.port)
-		})
-
-		watch(stand)
-
-		lines.push(stand)
-	}
-
-	return lines;
+	return gatewaySocket
 }])
 
 

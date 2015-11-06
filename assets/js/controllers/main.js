@@ -1,18 +1,25 @@
 angular.module('dsv.controllers.main', [])
 
 
-.controller('lines', function ($scope, lines) {
-	var activelines = []
+.controller('lines', function ($scope, gatewaySocket) {
+	var activelines
 	var itemsPerLine = 0
 
-	function updateUI(){
-		var activelines = []
-		for (var i in lines){
-			if (lines[i].isConnected == true){
-				activelines.push(lines[i])
+	gatewaySocket.on("disconnect", function(data){
+		activelines = []
+		updateUI()
+	})
+	gatewaySocket.on("onlineLines", function(data){
+		activelines = []
+		for(var id in data.lines){
+			if (data.lines[id] == true){
+				activelines.push(id)
 			}
 		}
+		updateUI()
+	})
 
+	function updateUI(){
 		$scope.hidden = activelines.length != 0
 
 		var itemsPerLine = Math.round(Math.pow(activelines.length, 0.5))
@@ -32,27 +39,12 @@ angular.module('dsv.controllers.main', [])
 			$scope.linesList.push(standLine)
 		}
 	}
-
-	updateUI()
-
-
-	for (i in lines){
-		var stand = lines[i]
-
-		stand.socket.on("connect", function(){
-			updateUI()
-		})
-		stand.socket.on("disconnect", function(){
-			updateUI()
-		})
-	}
-
-
 })
 
 
 
-.controller('stand', function ($scope, lines, $timeout) {
+// TODO: Now, each line recives all events.
+.controller('stand', function ($scope, $timeout, gatewaySocket) {
 	$scope.empty = true
 	$scope.stand
 
@@ -66,8 +58,17 @@ angular.module('dsv.controllers.main', [])
 	function updateUI(){
 		var socket = $scope.stand.socket
 
-		socket.emit('getSession', {})
-		socket.on("setSession", function(session){
+		gatewaySocket.emit("setLine", {
+			line: $scope.stand,
+			method: "getSession",
+			data: {},
+		})
+		gatewaySocket.on("setSession", function(data){
+
+			if (data.line != $scope.stand) return
+
+			var session = data.data
+
 			$scope.zoomlevel = session.disziplin.scheibe.defaultZoom
 
 			$scope.scheibe = session.disziplin.scheibe
@@ -78,9 +79,8 @@ angular.module('dsv.controllers.main', [])
 
 			if (session.serien.length > 0){
 
-				// SHow only last 4 serien (5-1)
+				// Show only last 4 serien (5-1)
 				for (var i = session.serien.length-1; (i > session.serien.length-5 && i >= 0); i--){
-					console.log(i)
 					$scope.lastSerien.unshift(session.serien[i])
 				}
 
