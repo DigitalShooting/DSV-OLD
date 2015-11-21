@@ -17,6 +17,9 @@ app.use("/css/", expressLess(__dirname + "/stylesheets"))
 
 // main route
 app.get("/", function(req, res){
+	res.locals = {
+		dscGatewayUrl: config.dscGateway.address + ":" + config.dscGateway.port,
+	}
 	res.render("index.jade")
 })
 
