@@ -28,7 +28,7 @@ app.get("/", function(req, res){
 var server = http.Server(app)
 server.listen(config.network.port, config.network.address)
 server.on("listening", function() {
-	console.log("Express server started on at %s:%s", server.address().address, server.address().port)
+	console.log("[INFO] DSV started (%s:%s)", server.address().address, server.address().port)
 })
 
 
