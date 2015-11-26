@@ -30,6 +30,7 @@ html(lang="en" ng-app="dsv")
 		// Modules
 		script(src='js/services/grafik.js')
 		script(src='js/controllers/main.js')
+		script(src='js/controllers/lines.js') 
 
 	body(ng-controller="lines")
 		table(ng-hide="hidden")
@@ -74,5 +75,13 @@ html(lang="en" ng-app="dsv")
 			
 		// Main JS init
 		script.
+			// env vars
+			var scaleFactor = 4;
 			var dscGatewayUrl = "#{dscGatewayUrl}"
-		script(src='js/index.js') 
+			
+			// init angular app
+			angular.module("dsv", [
+				"ds.services.grafik",
+				"dsv.services.lines", "dsv.controllers.main",
+				"ngAnimate",
+			])

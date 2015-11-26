@@ -6,11 +6,3 @@ angular.module('dsv.services.lines', ["btford.socket-io"])
 
 	return gatewaySocket
 }])
-
-
-angular.module("dsv", [
-	"dsv.services.grafik", "dsv.services.lines",
-	"dsv.controllers.main",
-
-	"ngAnimate",
-])
