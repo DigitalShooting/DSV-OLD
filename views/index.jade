@@ -47,7 +47,7 @@ html(lang="en" ng-app="dsv")
 							h1 {{stand.labelShort}}
 						
 						div(class="col-xs-5")
-							target( zoomlevel="zoomlevel" serie="serie" selectedshotindex="selectedshotindex" scheibe="scheibe" probeecke="probeecke")
+							target( zoomlevel="zoomlevel" serie="serie.shots" selectedshotindex="selectedshotindex" scheibe="scheibe" probeecke="probeecke")
 						div(class="col-xs-7")
 							.col-xs-12
 								h2 {{session.user.firstName}} {{session.user.lastName}}

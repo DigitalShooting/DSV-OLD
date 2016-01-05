@@ -12,7 +12,7 @@ angular.module('dsv.controllers.main', [])
 	gatewaySocket.on("onlineLines", function(data){
 		activelines = []
 		for(var id in data.lines){
-			if (data.lines[id] == true){
+			if (data.lines[id].online == true){
 				activelines.push(id)
 			}
 		}
