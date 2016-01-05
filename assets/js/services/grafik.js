@@ -163,6 +163,10 @@ angular.module('ds.services.grafik', [])
 				var selectedShotIndex = scope.selectedshotindex
 				var probeEcke = scope.probeecke
 
+				if (serie == undefined) {
+					serie = []
+				}
+
 				if (scheibe != undefined && serie != undefined && zoomLevel != undefined && selectedShotIndex != undefined){
 					drawScheibe(context, scheibe, serie, zoomLevel, selectedShotIndex, probeEcke)
 					drawMode(context, scheibe, serie, zoomLevel, selectedShotIndex)
