@@ -13,7 +13,7 @@ angular.module('dsv.controllers.main', [])
 		activelines = []
 		for(var id in data.lines){
 			if (data.lines[id].online == true){
-				activelines.push(id)
+				activelines.push(data.lines[id])
 			}
 		}
 		updateUI()
@@ -56,16 +56,14 @@ angular.module('dsv.controllers.main', [])
 	})
 
 	function updateUI(){
-		var socket = $scope.stand.socket
-
 		gatewaySocket.emit("setLine", {
-			line: $scope.stand,
+			line: $scope.stand.id,
 			method: "getSession",
 			data: {},
 		})
 		gatewaySocket.on("setSession", function(data){
 
-			if (data.line != $scope.stand) return
+			if (data.line != $scope.stand.id) return
 
 			var session = data.data
 
