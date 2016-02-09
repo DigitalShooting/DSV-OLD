@@ -22,7 +22,7 @@ angular.module('dsv.controllers.main', [])
 	function updateUI(){
 		$scope.hidden = activelines.length !== 0;
 
-		var itemsPerLine = Math.round(Math.pow(activelines.length, 0.5));
+		itemsPerLine = Math.round(Math.pow(activelines.length, 0.5));
 		if (itemsPerLine < 2) itemsPerLine = 2;
 
 		$scope.linesList = [];
@@ -46,7 +46,6 @@ angular.module('dsv.controllers.main', [])
 // TODO: Now, each line recives all events.
 .controller('stand', function ($scope, $timeout, gatewaySocket) {
 	$scope.empty = true;
-	$scope.stand = null;
 
 	$timeout(function(){
 		$scope.$watch('stand', function(value, old){
