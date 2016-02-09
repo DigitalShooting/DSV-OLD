@@ -12,7 +12,7 @@ angular.module('dsv.controllers.main', [])
 	gatewaySocket.on("onlineLines", function(data){
 		activelines = [];
 		for(var id in data.lines){
-			if (data.lines[id].online === true){
+			if (data.lines[id].online == true){
 				activelines.push(data.lines[id]);
 			}
 		}
@@ -20,7 +20,7 @@ angular.module('dsv.controllers.main', [])
 	});
 
 	function updateUI(){
-		$scope.hidden = activelines.length !== 0;
+		$scope.hidden = activelines.length != 0;
 
 		itemsPerLine = Math.round(Math.pow(activelines.length, 0.5));
 		if (itemsPerLine < 2) itemsPerLine = 2;
@@ -86,14 +86,14 @@ angular.module('dsv.controllers.main', [])
 				$scope.activeShot = session.serien[session.selection.serie].shots[session.selection.shot];
 				$scope.empty = false;
 
-				if ($scope.serie !== undefined && $scope.serie.length !== 0) {
+				if ($scope.serie != undefined && $scope.serie.length != 0) {
 					var ringInt = $scope.serie.shots[session.selection.shot].ring.int;
 					var ring = $scope.scheibe.ringe[$scope.scheibe.ringe.length - ringInt];
 
 					if (ring){
 						$scope.zoomlevel = ring.zoom;
 					}
-					else if (ringInt === 0){
+					else if (ringInt == 0){
 						$scope.zoomlevel = scheibe.minZoom;
 					}
 				}
