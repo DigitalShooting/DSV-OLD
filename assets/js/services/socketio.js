@@ -5,4 +5,4 @@ angular.module('dsv.services.socketio', [
 
 .factory('socket', function (socketFactory) {
 	return socketFactory();
-})
+});
