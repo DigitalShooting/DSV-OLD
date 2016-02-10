@@ -1,4 +1,6 @@
-angular.module('dsv.controllers.main', [])
+angular.module('dsv.controllers.main', [
+	"dsv.services.timeFunctions",
+])
 
 
 .controller('lines', function ($scope, gatewaySocket) {
@@ -115,4 +117,25 @@ angular.module('dsv.controllers.main', [])
 	};
 
 
-});
+})
+
+
+
+.controller('time', ['$scope', 'timeFunctions', function ($scope, timeFunctions) {
+	var refreshIntervalId;
+
+	function n(n){
+		return n > 9 ? "" + n: "0" + n;
+	}
+
+	function refresh($scope){
+		var date = new Date();
+
+		$scope.time = n(date.getHours())+":"+n(date.getMinutes())+":"+n(date.getSeconds()) + " Uhr";
+		$scope.date = n(date.getDate())+"."+n((date.getMonth()+1))+"."+n(date.getFullYear());
+	}
+
+	timeFunctions.$clearInterval( refreshIntervalId );
+	refreshIntervalId = timeFunctions.$setInterval(refresh, 1000, $scope);
+	refresh($scope);
+}])
