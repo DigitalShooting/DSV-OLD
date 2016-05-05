@@ -59,20 +59,21 @@ angular.module('dsv.controllers.main', [
 	function updateUI(){
 		gatewaySocket.emit("setLine", {
 			line: $scope.stand.id,
-			method: "getSession",
+			method: "getData",
 			data: {},
 		});
-		gatewaySocket.on("setSession", function(data){
+		gatewaySocket.on("setData", function(gatewayData){
 
-			if (data.line != $scope.stand.id) return;
+			if (gatewayData.line != $scope.stand.id) return;
+			var data = gatewayData.data;
+			var session = data.sessionParts[data.sessionIndex];
 
-			var session = data.data;
+			$scope.zoomlevel = data.disziplin.scheibe.defaultZoom;
 
-			$scope.zoomlevel = session.disziplin.scheibe.defaultZoom;
+			$scope.scheibe = data.disziplin.scheibe;
+			$scope.probeecke = data.disziplin.parts[session.type].probeEcke;
 
-			$scope.scheibe = session.disziplin.scheibe;
-			$scope.probeecke = session.disziplin.parts[session.type].probeEcke;
-
+			$scope.data = data;
 			$scope.session = session;
 			$scope.lastSerien = [];
 
@@ -88,15 +89,15 @@ angular.module('dsv.controllers.main', [
 				$scope.activeShot = session.serien[session.selection.serie].shots[session.selection.shot];
 				$scope.empty = false;
 
-				if ($scope.serie != undefined && $scope.serie.length != 0) {
+				if ($scope.serie !== undefined && $scope.serie.length !== 0) {
 					var ringInt = $scope.serie.shots[session.selection.shot].ring.int;
 					var ring = $scope.scheibe.ringe[$scope.scheibe.ringe.length - ringInt];
 
 					if (ring){
 						$scope.zoomlevel = ring.zoom;
 					}
-					else if (ringInt == 0){
-						$scope.zoomlevel = scheibe.minZoom;
+					else if (ringInt === 0){
+						$scope.zoomlevel = $scope.scheibe.minZoom;
 					}
 				}
 			}

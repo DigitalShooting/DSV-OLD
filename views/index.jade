@@ -57,8 +57,8 @@ html(lang="en" ng-app="dsv")
 							target( zoomlevel="zoomlevel" serie="serie.shots" selectedshotindex="selectedshotindex" scheibe="scheibe" probeecke="probeecke")
 						div(class="col-xs-7")
 							.col-xs-12
-								h2 {{session.user.firstName}} {{session.user.lastName}}
-								h4 {{session.user.verein}} {{session.user.manschaft}}
+								h2 {{data.user.firstName}} {{data.user.lastName}}
+								h4 {{data.user.verein}} {{data.user.manschaft}}
 								br
 								div(class="grayBoxp" ng-hide="empty")
 									table
