@@ -14,7 +14,7 @@ angular.module('dsv.controllers.main', [
 	gatewaySocket.on("onlineLines", function(data){
 		activelines = [];
 		for(var id in data.lines){
-			if (data.lines[id].online == true){
+			if (data.lines[id].online === true){
 				activelines.push(data.lines[id]);
 			}
 		}
@@ -22,7 +22,7 @@ angular.module('dsv.controllers.main', [
 	});
 
 	function updateUI(){
-		$scope.hidden = activelines.length != 0;
+		$scope.hidden = activelines.length !== 0;
 
 		itemsPerLine = Math.round(Math.pow(activelines.length, 0.5));
 		if (itemsPerLine < 2) itemsPerLine = 2;
@@ -139,4 +139,4 @@ angular.module('dsv.controllers.main', [
 	timeFunctions.$clearInterval( refreshIntervalId );
 	refreshIntervalId = timeFunctions.$setInterval(refresh, 1000, $scope);
 	refresh($scope);
-}])
+}]);
