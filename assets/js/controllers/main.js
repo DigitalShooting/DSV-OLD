@@ -52,63 +52,68 @@ angular.module('dsv.controllers.main', [
 	$timeout(function(){
 		$scope.$watch('stand', function(value, old){
 			$scope.stand = value;
-			updateUI();
+
+			// if we have a cached version of the data, we set it
+			if ($scope.stand.cache !== null) {
+				if ($scope.stand.cache.setData !== null) {
+					updateUI($scope.stand.cache.setData);
+				}
+			}
+
+			// set up gateway socket listener
+			gatewaySocket.on("setData", function(gatewayData){
+				if (gatewayData.line != $scope.stand.id) return;
+				var data = gatewayData.data;
+				updateUI(data);
+			});
 		});
 	});
 
-	function updateUI(){
-		gatewaySocket.emit("setLine", {
-			line: $scope.stand.id,
-			method: "getData",
-			data: {},
-		});
-		gatewaySocket.on("setData", function(gatewayData){
+	function updateUI(data) {
+		console.log("setData", data);
 
-			if (gatewayData.line != $scope.stand.id) return;
-			var data = gatewayData.data;
-			var session = data.sessionParts[data.sessionIndex];
+		var session = data.sessionParts[data.sessionIndex];
 
-			$scope.zoomlevel = data.disziplin.scheibe.defaultZoom;
+		$scope.zoomlevel = data.disziplin.scheibe.defaultZoom;
 
-			$scope.scheibe = data.disziplin.scheibe;
-			$scope.probeecke = data.disziplin.parts[session.type].probeEcke;
+		$scope.scheibe = data.disziplin.scheibe;
+		$scope.probeecke = data.disziplin.parts[session.type].probeEcke;
 
-			$scope.data = data;
-			$scope.session = session;
-			$scope.lastSerien = [];
+		$scope.data = data;
+		$scope.session = session;
+		$scope.lastSerien = [];
 
-			if (session.serien.length > 0){
+		if (session.serien.length > 0){
 
-				// Show only last 4 serien (5-1)
-				for (var i = session.serien.length-1; (i > session.serien.length-5 && i >= 0); i--){
-					$scope.lastSerien.unshift(session.serien[i]);
+			// Show only last 4 serien (5-1)
+			for (var i = session.serien.length-1; (i > session.serien.length-5 && i >= 0); i--){
+				$scope.lastSerien.unshift(session.serien[i]);
+			}
+
+			$scope.serie = session.serien[session.selection.serie];
+			$scope.selectedshotindex = session.selection.shot;
+			$scope.activeShot = session.serien[session.selection.serie].shots[session.selection.shot];
+			$scope.empty = false;
+
+			if ($scope.serie !== undefined && $scope.serie.length !== 0) {
+				var ringInt = $scope.serie.shots[session.selection.shot].ring.int;
+				var ring = $scope.scheibe.ringe[$scope.scheibe.ringe.length - ringInt];
+
+				if (ring){
+					$scope.zoomlevel = ring.zoom;
 				}
-
-				$scope.serie = session.serien[session.selection.serie];
-				$scope.selectedshotindex = session.selection.shot;
-				$scope.activeShot = session.serien[session.selection.serie].shots[session.selection.shot];
-				$scope.empty = false;
-
-				if ($scope.serie !== undefined && $scope.serie.length !== 0) {
-					var ringInt = $scope.serie.shots[session.selection.shot].ring.int;
-					var ring = $scope.scheibe.ringe[$scope.scheibe.ringe.length - ringInt];
-
-					if (ring){
-						$scope.zoomlevel = ring.zoom;
-					}
-					else if (ringInt === 0){
-						$scope.zoomlevel = $scope.scheibe.minZoom;
-					}
+				else if (ringInt === 0){
+					$scope.zoomlevel = $scope.scheibe.minZoom;
 				}
 			}
-			else {
-				$scope.serieSums = [];
-				$scope.activeShot = undefined;
-				$scope.serie = [];
-				$scope.selectedshotindex = -1;
-				$scope.empty = true;
-			}
-		});
+		}
+		else {
+			$scope.serieSums = [];
+			$scope.activeShot = undefined;
+			$scope.serie = [];
+			$scope.selectedshotindex = -1;
+			$scope.empty = true;
+		}
 	}
 
 	return {
