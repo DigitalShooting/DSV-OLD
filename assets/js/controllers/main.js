@@ -5,6 +5,8 @@ angular.module('dsv.controllers.main', [
 
 .controller('lines', function ($scope, gatewaySocket) {
 	var activelines;
+	var teams = [];
+
 	var itemsPerLine = 0;
 
 	gatewaySocket.on("disconnect", function(data){
@@ -18,30 +20,66 @@ angular.module('dsv.controllers.main', [
 				activelines.push(data.lines[id]);
 			}
 		}
+		teams = data.teams;
 		updateUI();
 	});
 
 	function updateUI(){
 		$scope.hidden = activelines.length !== 0;
 
-		itemsPerLine = Math.round(Math.pow(activelines.length, 0.5));
+		var itemList = [];
+		for (var id in activelines){
+			itemList.push({
+				type: "line",
+				data: activelines[id],
+			});
+		}
+		for (var id in teams){
+			itemList.push({
+				type: "team",
+				data: teams[id],
+			});
+		}
+
+		itemsPerLine = Math.round(Math.pow(itemList.length, 0.5));
 		if (itemsPerLine < 2) itemsPerLine = 2;
 
-		$scope.linesList = [];
-		for (var i = 0; i < activelines.length; i=i+itemsPerLine){
+		var items = [];
+		for (var i = 0; i < itemList.length; i=i+itemsPerLine){
 			var standLine = [];
 
 			for (var ii = 0; ii < itemsPerLine; ii++){
-				if (i+ii < activelines.length){
-					var s = activelines[i+ii];
+				if (i+ii < itemList.length){
+					var s = itemList[i+ii];
 					s.index = i+ii;
 					standLine.push(s);
 				}
 			}
-			$scope.linesList.push(standLine);
+			items.push(standLine);
 		}
+		$scope.items = items;
+
 	}
 })
+
+
+
+.controller('team', function ($scope, $timeout, gatewaySocket) {
+
+	$timeout(function(){
+		$scope.$watch('item', function(value, old){
+			$scope.team = value.data;
+		});
+	});
+
+	// set up gateway socket listener
+	gatewaySocket.on("setTeam", function(gatewayData){
+		if (gatewayData.team.teamID !== $scope.team.teamID) return;
+		$scope.team = gatewayData.team;
+	});
+
+})
+
 
 
 
@@ -49,9 +87,24 @@ angular.module('dsv.controllers.main', [
 .controller('stand', function ($scope, $timeout, gatewaySocket) {
 	$scope.empty = true;
 
+
+	// set up gateway socket listener
+	gatewaySocket.on("setData", function(gatewayData){
+		if (gatewayData.line != $scope.stand.id) return;
+		var data = gatewayData.data;
+		updateUI(data);
+	});
+
+
 	$timeout(function(){
+		$scope.$watch('item', function(value, old){
+			$scope.stand = value.data;
+			console.log(value)
+		});
+
 		$scope.$watch('stand', function(value, old){
-			$scope.stand = value;
+
+			if (value === undefined) { return; }
 
 			// if we have a cached version of the data, we set it
 			if ($scope.stand.cache !== null) {
@@ -60,18 +113,10 @@ angular.module('dsv.controllers.main', [
 				}
 			}
 
-			// set up gateway socket listener
-			gatewaySocket.on("setData", function(gatewayData){
-				if (gatewayData.line != $scope.stand.id) return;
-				var data = gatewayData.data;
-				updateUI(data);
-			});
 		});
 	});
 
 	function updateUI(data) {
-		console.log("setData", data);
-
 		var session = data.sessionParts[data.sessionIndex];
 
 		$scope.zoomlevel = data.disziplin.scheibe.defaultZoom;
@@ -124,6 +169,7 @@ angular.module('dsv.controllers.main', [
 
 
 })
+
 
 
 

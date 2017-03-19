@@ -17,7 +17,7 @@ html(lang="en" ng-app="dsv")
 		script(src="/libs/angularjs/angular.min.js")
 		script(src='/libs/angular-route/angular-route.js')
 		script(src='/libs/angular-animate/angular-animate.min.js')
-		
+		script(src="/libs/md5/md5.js")
 		
 		// Socket io
 		script(src="/socket.io/socket.io.js")
@@ -42,12 +42,29 @@ html(lang="en" ng-app="dsv")
 					div(class="alert alert-info" role="alert")
 						b Keine Aktiven Stände 
 						| Aktuell sind keine Stände Online
+						
 		table(style="height:90%;")
-			tr(ng-repeat="standLine in linesList" class="animate")
-				td(ng-repeat="stand in standLine" class="animate top")
-					div(ng-controller="stand" stand="stand")
+			tr(ng-repeat="rows in items" class="animate")
+				td(ng-repeat="item in rows" class="animate top" style="border: solid 1px #dddddd;")
+					div(ng-controller="team" ng-if="item.type == 'team'")
+						div(class="col-xs-5 teamSum" style="background-color: {{team.manschaft | colorFromString}};")
+							h1 {{team.hochrechnung}}
+							h4 &Oslash; Ringe
+						div(class="col-xs-7")
+							h2 {{team.verein}} {{team.manschaft}}
+							br
+							div(class="grayBoxp" ng-hide="empty")
+								table(class="table")
+									tr
+										td
+											h2 {{team.progress}}%
+										td
+											h4 {{team.schnitt}} &Oslash;
+										td
+											h4 {{team.gesamt}} Ringe
+					div(ng-controller="stand" ng-if="item.type == 'line'")
 						div(class="standLabel")
-							h1 {{stand.labelShort}}
+							h1(style="background-color: {{data.user.manschaft | colorFromString}};") {{stand.labelShort}}
 						
 						div(class="col-xs-5")
 							target( zoomlevel="zoomlevel" serie="serie.shots" selectedshotindex="selectedshotindex" scheibe="scheibe" probeecke="probeecke")
@@ -62,12 +79,12 @@ html(lang="en" ng-app="dsv")
 											td
 												h1 {{activeShot.ring.display}} 
 											td
-												h2 {{session.anzahl}}.
+												h4 {{session.anzahl}}.
 									
 									table
 										tr
 											td
-												h2 {{session.schnitt}} &Oslash;
+												h4 {{session.schnitt}} &Oslash;
 											td
 												h2 {{session.gesamt}} Ringe
 								br

@@ -1,5 +1,11 @@
 angular.module('dsv.services.timeFunctions', [])
 
+.filter('colorFromString', function() {
+	return function(x) {
+		return "#"+md5(x).substring(0,6);
+	};
+})
+
 .factory('timeFunctions', ["$timeout", function timeFunctions($timeout) {
 	var _intervals = {}, _intervalUID = 1;
 
