@@ -51,6 +51,14 @@ gatewaySocket.on("onlineLines", function(data){
 	onlineLines = data;
 });
 
+// redirect onlineLines from gateway to client
+var onlineLines = {};
+gatewaySocket.on("disconnect", function(){
+	io.emit("onlineLines", {});
+	onlineLines = {};
+});
+
+
 // send onlineLines to client new connected client
 io.on("connection", function(socket){
 	socket.emit("onlineLines", onlineLines);
