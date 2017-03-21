@@ -4,40 +4,40 @@ angular.module('dsv.controllers.main', [
 
 
 .controller('lines', function ($scope, gatewaySocket) {
-	var activelines;
-	var teams = [];
+	$scope.activelines;
+	$scope.teams = [];
 
 	var itemsPerLine = 0;
 
 	gatewaySocket.on("disconnect", function(data){
-		activelines = [];
+		$scope.activelines = [];
 		updateUI();
 	});
 	gatewaySocket.on("onlineLines", function(data){
-		activelines = [];
+		$scope.activelines = [];
 		for(var id in data.lines){
 			if (data.lines[id].online === true){
-				activelines.push(data.lines[id]);
+				$scope.activelines.push(data.lines[id]);
 			}
 		}
-		teams = data.teams;
+		$scope.teams = data.teams;
 		updateUI();
 	});
 
 	function updateUI(){
-		$scope.hidden = activelines.length !== 0;
+		$scope.hidden = $scope.activelines.length !== 0;
 
 		var itemList = [];
-		for (var id in activelines){
+		for (var id in $scope.activelines){
 			itemList.push({
 				type: "line",
-				data: activelines[id],
+				data: $scope.activelines[id],
 			});
 		}
-		for (var id in teams){
+		for (var id in $scope.teams){
 			itemList.push({
 				type: "team",
-				data: teams[id],
+				data: $scope.teams[id],
 			});
 		}
 

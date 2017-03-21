@@ -15,6 +15,7 @@ app.set('view engine', 'jade');
 app.use("/js/", express.static("./assets/js"));
 app.use("/libs/", express.static("./assets/libs"));
 app.use("/favicon.ico", express.static("./assets/img/favicon.ico"));
+app.use("/logo.png", express.static(config.dsv.hostVerein.logoPath));
 
 app.use("/css/", expressLess(__dirname + "/stylesheets"));
 
@@ -42,6 +43,15 @@ var gatewaySocket = SocketClient(config.dscGateway.url);
 // redirect setData from gateway to client
 gatewaySocket.on("setData", function(data){
 	io.emit("setData", data);
+	if (onlineLines.lines[data.line] != null) {
+		onlineLines.lines[data.line].cache.setData = data.data;
+	}
+});
+gatewaySocket.on("setTeam", function(data){
+	io.emit("setTeam", data);
+	if (onlineLines.lines[data.line] != null) {
+		onlineLines.lines[data.line].cache.setTeam = data.data;
+	}
 });
 
 // redirect onlineLines from gateway to client
@@ -51,8 +61,6 @@ gatewaySocket.on("onlineLines", function(data){
 	onlineLines = data;
 });
 
-// redirect onlineLines from gateway to client
-var onlineLines = {};
 gatewaySocket.on("disconnect", function(){
 	io.emit("onlineLines", {});
 	onlineLines = {};
