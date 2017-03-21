@@ -47,10 +47,11 @@ html(lang="en" ng-app="dsv")
 			tr(ng-repeat="rows in items" class="animate")
 				td(ng-repeat="item in rows" class="animate top" style="border: solid 1px #dddddd;")
 					div(ng-controller="team" ng-if="item.type == 'team'")
-						div(class="col-xs-5 teamSum" style="background-color: {{team.manschaft | colorFromString}};")
+						//- div(class="col-xs-5 teamSum" style="background-color: {{team.manschaft | colorFromString}};")
+						div(class="col-xs-3 teamSum")
 							h1 {{team.hochrechnung}}
 							h4 &Oslash; Ringe
-						div(class="col-xs-7")
+						div(class="col-xs-9")
 							h2 {{team.verein}} {{team.manschaft}}
 							br
 							div(class="grayBoxp" ng-hide="empty")
@@ -64,10 +65,11 @@ html(lang="en" ng-app="dsv")
 											h4 {{team.gesamt}} Ringe
 					div(ng-controller="stand" ng-if="item.type == 'line'")
 						div(class="standLabel")
-							h1(style="background-color: {{data.user.manschaft | colorFromString}};") {{stand.labelShort}}
+							//- h1(style="background-color: {{data.user.manschaft | colorFromString}};") {{stand.labelShort}}
+							h1 {{stand.labelShort}}
 						
 						div(class="col-xs-5")
-							target( zoomlevel="zoomlevel" serie="serie.shots" selectedshotindex="selectedshotindex" scheibe="scheibe" probeecke="probeecke")
+							target(zoomlevel="zoomlevel" serie="serie.shots" selectedshotindex="selectedshotindex" scheibe="scheibe" probeecke="probeecke")
 						div(class="col-xs-7")
 							.col-xs-12
 								h2 {{data.user.firstName}} {{data.user.lastName}}
@@ -97,7 +99,7 @@ html(lang="en" ng-app="dsv")
 		script.
 			// env vars
 			var scaleFactor = 4;
-			var dscGatewayUrl = "#{dscGatewayUrl}"
+			//- var dscGatewayUrl = "#{dscGatewayUrl}"
 			
 			// init angular app
 			angular.module("dsv", [

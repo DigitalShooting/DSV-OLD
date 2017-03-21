@@ -43,6 +43,7 @@ angular.module('dsv.controllers.main', [
 
 		itemsPerLine = Math.round(Math.pow(itemList.length, 0.5));
 		if (itemsPerLine < 2) itemsPerLine = 2;
+		if (itemsPerLine > 3) itemsPerLine -= 1;
 
 		var items = [];
 		for (var i = 0; i < itemList.length; i=i+itemsPerLine){

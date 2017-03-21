@@ -2,6 +2,7 @@ var express = require("express");
 var app = express();
 var http = require("http");
 var expressLess = require('express-less');
+var SocketClient = require("socket.io-client");
 
 var config = require("./config/");
 
@@ -19,9 +20,6 @@ app.use("/css/", expressLess(__dirname + "/stylesheets"));
 
 // main route
 app.get("/", function(req, res){
-	res.locals = {
-		dscGatewayUrl: config.dscGateway.address + ":" + config.dscGateway.port,
-	};
 	res.render("index.jade");
 });
 
@@ -36,3 +34,24 @@ server.on("listening", function() {
 
 // socket init
 var io = require("socket.io")(server);
+
+
+// Redirect setData and onlineLines to client
+var gatewaySocket = SocketClient(config.dscGateway.url);
+
+// redirect setData from gateway to client
+gatewaySocket.on("setData", function(data){
+	io.emit("setData", data);
+});
+
+// redirect onlineLines from gateway to client
+var onlineLines = {};
+gatewaySocket.on("onlineLines", function(data){
+	io.emit("onlineLines", data);
+	onlineLines = data;
+});
+
+// send onlineLines to client new connected client
+io.on("connection", function(socket){
+	socket.emit("onlineLines", onlineLines);
+});
