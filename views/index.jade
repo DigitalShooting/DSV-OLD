@@ -23,6 +23,9 @@ html(lang="en" ng-app="dsv")
 		script(src="/socket.io/socket.io.js")
 		script(src="/libs/angular-socket-io/socket.js")
 		
+		// FitText
+		script(src="/libs/ngFitText/src/ng-FitText.js")
+		
 		// Modules
 		script(src='js/services/grafik.js')
 		script(src='/js/services/timeFuctions.js')
@@ -107,5 +110,5 @@ html(lang="en" ng-app="dsv")
 			angular.module("dsv", [
 				"ds.services.grafik",
 				"dsv.services.lines", "dsv.controllers.main",
-				"ngAnimate",
+				"ngAnimate", "ngFitText",
 			])
