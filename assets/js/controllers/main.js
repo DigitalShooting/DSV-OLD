@@ -2,10 +2,12 @@ angular.module('dsv.controllers.main', [
 	"dsv.services.timeFunctions",
 ])
 
-
-.controller('lines', function ($scope, gatewaySocket) {
+.controller('lines', function ($scope, gatewaySocket, $window) {
 	$scope.activelines;
+	$scope.size = {x: 0, y: 0, height: 0, width: 0};
 	$scope.teams = [];
+
+	$scope.itemList = [];
 
 	var itemsPerLine = 0;
 
@@ -41,6 +43,11 @@ angular.module('dsv.controllers.main', [
 			});
 		}
 
+		$scope.size.x = Math.round( Math.pow(itemList.length, 0.45) );
+		$scope.size.y = Math.ceil( itemList.length / $scope.size.x);
+
+		$scope.itemList = itemList;
+
 		itemsPerLine = Math.round(Math.pow(itemList.length, 0.5));
 		if (itemsPerLine < 2) itemsPerLine = 2;
 		if (itemsPerLine > 3) itemsPerLine -= 1;
@@ -60,6 +67,17 @@ angular.module('dsv.controllers.main', [
 		}
 		$scope.items = items;
 
+		resize();
+	}
+
+
+
+	window.addEventListener('load', resize, false);
+	window.addEventListener('resize', resize, false);
+
+	function resize() {
+		$scope.size.height = ($window.innerHeight * 0.9)/ $scope.size.y;
+		// $scope.size.width = (window.innerWidth * 0.9)/ $scope.size.x;
 	}
 })
 
@@ -83,7 +101,6 @@ angular.module('dsv.controllers.main', [
 
 
 
-
 // TODO: Now, each line recives all events.
 .controller('stand', function ($scope, $timeout, gatewaySocket) {
 	$scope.empty = true;
@@ -100,7 +117,6 @@ angular.module('dsv.controllers.main', [
 	$timeout(function(){
 		$scope.$watch('item', function(value, old){
 			$scope.stand = value.data;
-			console.log(value)
 		});
 
 		$scope.$watch('stand', function(value, old){

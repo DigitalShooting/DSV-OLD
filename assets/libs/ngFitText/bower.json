@@ -1,8 +1,8 @@
 {
   "name": "ngFitText",
-  "version": "3.3.3",
+  "version": "4.2.3",
   "main": [
-    "src/ng-FitText.js"
+    "dist/ng-FitText.min.js"
   ],
   "keywords": [
     "angular",
@@ -13,6 +13,7 @@
     "demo",
     "lib",
     "node_modules",
+    "src",
     "test",
     ".bowerrc",
     "gulpfile.js",
@@ -20,6 +21,6 @@
     "index.html"
   ],
   "dependencies": {
-    "angular": "1.3.15"
+    "angular": "1.x"
   }
 }

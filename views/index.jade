@@ -24,15 +24,16 @@ html(lang="en" ng-app="dsv")
 		script(src="/libs/angular-socket-io/socket.js")
 		
 		// FitText
-		script(src="/libs/ngFitText/src/ng-FitText.js")
+		script(src="/libs/ngFitText/dist/ng-FitText.min.js")
 		
 		// Modules
 		script(src='js/services/grafik.js')
-		script(src='/js/services/timeFuctions.js')
+		script(src='js/services/timeFuctions.js')
 		script(src='js/controllers/main.js')
 		script(src='js/controllers/lines.js') 
 
-	body(ng-controller="lines")
+	body(ng-controller="lines" style="max-height:100%;")
+	
 		div(class="logo") 
 			img(src="./logo.png")
 		table(class="navbar-cutsom navbar-default navbar-top" style="height:10%;")
@@ -47,18 +48,17 @@ html(lang="en" ng-app="dsv")
 					div(class="alert alert-info" role="alert")
 						b Keine Aktiven Stände 
 						| Aktuell sind keine Stände Online
-						
-		table(style="height:90%;")
-			tr(ng-repeat="rows in items" class="animate")
-				td(ng-repeat="item in rows" class="animate top" style="border: solid 1px #dddddd;")
-					div(ng-controller="team" ng-if="item.type == 'team'")
-						//- div(class="col-xs-5 teamSum" style="background-color: {{team.manschaft | colorFromString}};")
+		
+		div(style="height:90%;")
+			div(ng-repeat="item in itemList" class="animate top" style="border: solid 1px #dddddd; height:{{100 / size.y}}%; width:{{100 / size.x}}%; position: relativ; float: left; overflow: hidden;")
+				div(style="display: table; height: 100%;" ng-if="item.type == 'team'" ng-controller="team")
+					div(style="vertical-align: middle; display: table-cell;")
+						h2 {{team.verein}} {{team.manschaft}}
+						br
 						div(class="col-xs-3 teamSum")
 							h1 {{team.hochrechnung}}
 							h4 &Oslash; Ringe
 						div(class="col-xs-9")
-							h2 {{team.verein}} {{team.manschaft}}
-							br
 							div(class="grayBoxp" ng-hide="empty")
 								table(class="table")
 									tr
@@ -66,17 +66,18 @@ html(lang="en" ng-app="dsv")
 											h2 {{team.progress}}%
 										td
 											h4 {{team.schnitt}} &Oslash;
-										td
+									tr
+										td(colspan="2")
 											h4 {{team.gesamt}} Ringe
-					div(ng-controller="stand" ng-if="item.type == 'line'")
+				div(ng-controller="stand" ng-if="item.type == 'line'" style="height: 100%;")
+					div(style="display: table; height: 100%;")
 						div(class="standLabel")
-							//- h1(style="background-color: {{data.user.manschaft | colorFromString}};") {{stand.labelShort}}
 							h1 {{stand.labelShort}}
 						
-						div(class="col-xs-5")
-							target(zoomlevel="zoomlevel" serie="serie.shots" selectedshotindex="selectedshotindex" scheibe="scheibe" probeecke="probeecke")
-						div(class="col-xs-7")
-							.col-xs-12
+						div(style="vertical-align: middle; display: table-cell;")
+							div(class="col-xs-5" style="overflow: hidden; max-height:{{size.height}}px; padding:0px;")
+								target(zoomlevel="zoomlevel" serie="serie.shots" selectedshotindex="selectedshotindex" scheibe="scheibe" probeecke="probeecke")
+							div(class="col-xs-7")
 								h2 {{data.user.firstName}} {{data.user.lastName}}
 								h4 {{data.user.verein}} {{data.user.manschaft}}
 								br
@@ -87,8 +88,6 @@ html(lang="en" ng-app="dsv")
 												h1 {{activeShot.ring.display}} 
 											td
 												h4 {{session.anzahl}}.
-									
-									table
 										tr
 											td
 												h4 {{session.schnitt}} &Oslash;
@@ -110,5 +109,21 @@ html(lang="en" ng-app="dsv")
 			angular.module("dsv", [
 				"ds.services.grafik",
 				"dsv.services.lines", "dsv.controllers.main",
-				"ngAnimate", "ngFitText",
+				"ngAnimate",
+				//- "ngFitText",
 			])
+			//- .config(['fitTextConfigProvideroo', function(fitTextConfigProvider) {
+			//- 	fitTextConfigProvider.config = {
+			//- 		debounce: _.debounce,               // include a vender function like underscore or lodash
+			//- 		debounce: function(a,b,c) {         // OR specify your own function
+			//- 			var d;return function(){var e=this,f=arguments;clearTimeout(d),d=setTimeout(function(){d=null,c||a.apply(e,f)},b),c&&!d&&a.apply(e,f)}
+			//- 		},
+			//- 		delay: 1000,                        // debounce delay
+			//- 		loadDelay: 10,                      // global default delay before initial calculation
+			//- 		compressor: 0.5,                      // global default calculation multiplier
+			//- 		min: 0,                             // global default min
+			//- 		min: 'inherit',                     // OR inherit CSS values globally
+			//- 		max: Number.POSITIVE_INFINITY,       // global default max
+			//- 		max: 'inherit',                      // OR inherit CSS values globally
+			//- 	};
+			//- }])

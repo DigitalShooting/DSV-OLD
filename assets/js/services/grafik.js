@@ -128,7 +128,8 @@ angular.module('ds.services.grafik', [])
 			function resize() {
 				if (scope.size === undefined){
 					var width = element.parent().outerWidth(true);
-					var height = element.parent().outerHeight(true);
+					var height = element.parent().parent().outerHeight(true);
+					// console.log(width, height);
 
 					var newHeight = width;
 
@@ -144,8 +145,8 @@ angular.module('ds.services.grafik', [])
 					canvas.style.height = height+'px';
 				}
 				else {
-					canvas.style.width = scope.size;
-					canvas.style.height = scope.size;
+					canvas.style.width = scope.size+'px';
+					canvas.style.height = scope.size+'px';
 				}
 
 			}
