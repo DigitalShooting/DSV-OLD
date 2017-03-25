@@ -2,44 +2,65 @@ angular.module('dsv.controllers.main', [
 	"dsv.services.timeFunctions",
 ])
 
+/**
+ Main Line Controller to get data from dsc gateway and proccess it to the ui.
+ */
 .controller('lines', function ($scope, gatewaySocket, $window) {
-	$scope.activelines;
-	$scope.size = {x: 0, y: 0, height: 0, width: 0};
-	$scope.teams = [];
 
+	/**
+	 Contains all lines from dsc gateway which are online
+	 */
+	var activelines = [];
+
+	/**
+	 Teams from dsc gateway
+	 */
+	var teams = [];
+
+	/**
+	 Frontend size of oure layout
+	 */
+	$scope.size = {
+		x: 0,
+		y: 0,
+		height: 0,
+		width: 0
+	};
+
+	/**
+	 Contains lines and teams, wrapped in an object with a type id
+	 */
 	$scope.itemList = [];
 
-	var itemsPerLine = 0;
-
-	gatewaySocket.on("disconnect", function(data){
-		$scope.activelines = [];
+	gatewaySocket.on("disconnect", function(){
+		activelines = [];
 		updateUI();
 	});
 	gatewaySocket.on("onlineLines", function(data){
-		$scope.activelines = [];
+		activelines = [];
 		for(var id in data.lines){
 			if (data.lines[id].online === true){
-				$scope.activelines.push(data.lines[id]);
+				activelines.push(data.lines[id]);
 			}
 		}
-		$scope.teams = data.teams;
+		teams = data.teams;
 		updateUI();
 	});
 
 	function updateUI(){
-		$scope.hidden = $scope.activelines.length !== 0;
+		$scope.hidden = activelines.length !== 0;
 
 		var itemList = [];
-		for (var id in $scope.activelines){
+		for (var id in activelines){
 			itemList.push({
 				type: "line",
-				data: $scope.activelines[id],
+				data: activelines[id],
 			});
 		}
-		for (var id in $scope.teams){
+		for (var id in teams){
 			itemList.push({
 				type: "team",
-				data: $scope.teams[id],
+				data: teams[id],
 			});
 		}
 
@@ -48,45 +69,27 @@ angular.module('dsv.controllers.main', [
 
 		$scope.itemList = itemList;
 
-		itemsPerLine = Math.round(Math.pow(itemList.length, 0.5));
-		if (itemsPerLine < 2) itemsPerLine = 2;
-		if (itemsPerLine > 3) itemsPerLine -= 1;
-
-		var items = [];
-		for (var i = 0; i < itemList.length; i=i+itemsPerLine){
-			var standLine = [];
-
-			for (var ii = 0; ii < itemsPerLine; ii++){
-				if (i+ii < itemList.length){
-					var s = itemList[i+ii];
-					s.index = i+ii;
-					standLine.push(s);
-				}
-			}
-			items.push(standLine);
-		}
-		$scope.items = items;
-
 		resize();
 	}
-
-
 
 	window.addEventListener('load', resize, false);
 	window.addEventListener('resize', resize, false);
 
 	function resize() {
 		$scope.size.height = ($window.innerHeight * 0.9)/ $scope.size.y;
-		// $scope.size.width = (window.innerWidth * 0.9)/ $scope.size.x;
+		// $scope.size.width = (window.innerWidth * 0.9)/ $scope.size.x; // not needed currently
 	}
 })
 
 
 
+/**
+ Team Controller listens on "setTeam" event to update.
+ */
 .controller('team', function ($scope, $timeout, gatewaySocket) {
 
 	$timeout(function(){
-		$scope.$watch('item', function(value, old){
+		$scope.$watch('item', function(value){
 			$scope.team = value.data;
 		});
 	});
@@ -101,25 +104,25 @@ angular.module('dsv.controllers.main', [
 
 
 
-// TODO: Now, each line recives all events.
+/**
+ Line Controller, listens on "setData" event and update single line.
+ */
 .controller('stand', function ($scope, $timeout, gatewaySocket) {
-	$scope.empty = true;
-
 
 	// set up gateway socket listener
 	gatewaySocket.on("setData", function(gatewayData){
-		if (gatewayData.line != $scope.stand.id) return;
+		if ($scope.stand != null && gatewayData.line != $scope.stand.id) return;
 		var data = gatewayData.data;
 		updateUI(data);
 	});
 
 
 	$timeout(function(){
-		$scope.$watch('item', function(value, old){
+		$scope.$watch('item', function(value){
 			$scope.stand = value.data;
 		});
 
-		$scope.$watch('stand', function(value, old){
+		$scope.$watch('stand', function(value){
 
 			if (value === undefined) { return; }
 
@@ -129,7 +132,6 @@ angular.module('dsv.controllers.main', [
 					updateUI($scope.stand.cache.setData);
 				}
 			}
-
 		});
 	});
 
@@ -155,7 +157,6 @@ angular.module('dsv.controllers.main', [
 			$scope.serie = session.serien[session.selection.serie];
 			$scope.selectedshotindex = session.selection.shot;
 			$scope.activeShot = session.serien[session.selection.serie].shots[session.selection.shot];
-			$scope.empty = false;
 
 			if ($scope.serie !== undefined && $scope.serie.length !== 0) {
 				var ringInt = $scope.serie.shots[session.selection.shot].ring.int;
@@ -174,7 +175,6 @@ angular.module('dsv.controllers.main', [
 			$scope.activeShot = undefined;
 			$scope.serie = [];
 			$scope.selectedshotindex = -1;
-			$scope.empty = true;
 		}
 	}
 
@@ -183,13 +183,13 @@ angular.module('dsv.controllers.main', [
 			stand: '=',
 		},
 	};
-
-
 })
 
 
 
-
+/**
+ Simple Controller to show the time.
+ */
 .controller('time', ['$scope', 'timeFunctions', function ($scope, timeFunctions) {
 	var refreshIntervalId;
 
