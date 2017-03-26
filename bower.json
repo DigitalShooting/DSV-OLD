@@ -15,7 +15,7 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.3.5",
+    "bootstrap": "~3.3.7",
     "angularjs": "~1.4.4",
     "angular-socket-io": "~0.7.0",
     "angular-route": "~1.4.4",

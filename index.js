@@ -8,8 +8,8 @@ var config = require("./config/");
 
 
 
-// jade
-app.set('view engine', 'jade');
+// pug
+app.set('view engine', 'pug');
 
 // assets
 app.use("/js/", express.static("./assets/js"));
@@ -31,7 +31,7 @@ app.get("/", function(req, res){
 			},
 		},
 	};
-	res.render("index.jade");
+	res.render("index.pug");
 });
 
 
