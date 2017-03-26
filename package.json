@@ -6,12 +6,12 @@
   "author": "Jannik Lorenz",
   "private": true,
   "dependencies": {
-    "bootstrap": "~3.3.7",
-    "express": "~4.15.2",
-    "express-less": "~0.1.0",
-    "pug": "~2.0.0-beta11",
-    "jquery": "~3.2.1",
-    "socket.io": "~1.7.3",
-    "socket.io-client": "~1.7.3"
+    "bootstrap": "^3.3.7",
+    "express": "^4.15.2",
+    "express-less": "^0.1.0",
+    "pug": "^2.0.0-beta11",
+    "jquery": "^3.2.1",
+    "socket.io": "^1.7.3",
+    "socket.io-client": "^1.7.3"
   }
 }

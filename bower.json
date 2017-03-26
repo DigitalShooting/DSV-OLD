@@ -15,11 +15,14 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.3.7",
-    "angularjs": "~1.4.4",
-    "angular-socket-io": "~0.7.0",
-    "angular-route": "~1.4.4",
-    "angular-animate": "~1.4.4",
+    "bootstrap": "^3.3.7",
+    "angularjs": "~1.6.4",
+    "angular-socket-io": "^0.7.0",
+    "angular-route": "~1.6.4",
+    "angular-animate": "~1.6.4",
     "ngFitText": "~4.2.0"
+  },
+  "resolutions": {
+    "angular": "1.6.4-build.5336+sha.80077f3"
   }
 }
