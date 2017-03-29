@@ -80,8 +80,7 @@ html(lang="en" ng-app="dsv")
 							div(class="col-xs-7")
 								h2 {{data.user.firstName}} {{data.user.lastName}}
 								h4 {{data.user.verein}} {{data.user.manschaft}}
-								br
-								div(class="grayBoxp" ng-hide="session.serien.length == 0")
+								div(class="grayBoxp paddingTop" ng-hide="session.serien.length == 0")
 									table
 										tr
 											td
@@ -93,7 +92,7 @@ html(lang="en" ng-app="dsv")
 												h4 {{session.schnitt}} &Oslash;
 											td
 												h2 {{session.gesamt}} Ringe
-								table(class="table")
+								table(class="table paddingTop")
 									tr
 										td(ng-repeat="serie in lastSerien track by $index" class="" )
 											h2 {{serie.gesamt}}
