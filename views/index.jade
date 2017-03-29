@@ -63,7 +63,7 @@ html(lang="en" ng-app="dsv")
 								table(class="table")
 									tr
 										td
-											h2 {{team.progress}}%
+											h4 {{team.progress}}%
 										td
 											h4 {{team.schnitt}} &Oslash;
 									tr
@@ -93,7 +93,6 @@ html(lang="en" ng-app="dsv")
 												h4 {{session.schnitt}} &Oslash;
 											td
 												h2 {{session.gesamt}} Ringe
-								br
 								table(class="table")
 									tr
 										td(ng-repeat="serie in lastSerien track by $index" class="" )
