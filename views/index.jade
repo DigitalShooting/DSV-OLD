@@ -34,16 +34,15 @@ html(lang="en" ng-app="dsv")
 
 	body(ng-controller="lines" style="max-height:100%;")
 		div(style="height:100%;" ng-hide="hidden == false")
-			div(ng-repeat="item in itemList" class="animate top" style="border: solid 1px #dddddd; height:{{100 / size.y}}%; width:{{100 / size.x}}%; position: relativ; float: left; overflow: hidden;")
-				div(style="display: table; height: 100%;" ng-if="item.type == 'time'" ng-controller="time")
+			div(ng-repeat="item in itemList" class="animate top" style="border: solid 1px #dddddd; height:{{100 / size.y}}%; max-height:{{100 / size.y}}%; width:{{100 / size.x}}%; position: relativ; float: left; overflow: hidden;")
+				div(style="display: table; height: 100%; display: flex;" ng-if="item.type == 'time'" ng-controller="time")
+					//- img(src="./logo.png")
 					table
 						tr
 							td
 								h4 Uhr
 								h3(data-fittext data-fittext-max="30ex") {{time}}
 								h4 {{date}}
-							//- td
-							//- 	img(src="./logo.png")
 
 				div(style="display: table; height: 100%;" ng-if="item.type == 'noLines'")
 					table
@@ -92,7 +91,7 @@ html(lang="en" ng-app="dsv")
 												h4 {{session.anzahl}}.
 										tr
 											td
-												h4 {{session.schnitt}} &Oslash;
+												h4 {{session.schnitt}} &Oslash ({{session.schnittCalc}})
 											td
 												h2 {{session.gesamt}} Ringe
 								table(class="table paddingTop")
