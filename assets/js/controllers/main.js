@@ -54,16 +54,16 @@ angular.module('dsv.controllers.main', [
 		});
 
 		if (activelines.length != 0) {
-			for (var id in activelines){
-				itemList.push({
-					type: "line",
-					data: activelines[id],
-				});
-			}
 			for (var id in teams){
 				itemList.push({
 					type: "team",
 					data: teams[id],
+				});
+			}
+			for (var id in activelines){
+				itemList.push({
+					type: "line",
+					data: activelines[id],
 				});
 			}
 		}
