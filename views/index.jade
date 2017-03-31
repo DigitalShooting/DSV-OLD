@@ -88,16 +88,16 @@ html(lang="en" ng-app="dsv")
 											td
 												h1 {{activeShot.ring.display}} 
 											td
-												h4 {{session.anzahl}}.
+												h6 {{session.anzahl}}.
 										tr
 											td
-												h4 {{session.schnitt}} &Oslash ({{session.schnittCalc}})
+												h6 {{session.schnitt}} &Oslash ({{session.schnittCalc}})
 											td
-												h2 {{session.gesamt}} Ringe
+												h5 {{session.gesamt}} Ringe
 								table(class="table paddingTop")
 									tr
 										td(ng-repeat="serie in lastSerien track by $index" class="" )
-											h2 {{serie.gesamt}}
+											h5 {{serie.gesamt}}
 			
 		// Main JS init
 		script.
