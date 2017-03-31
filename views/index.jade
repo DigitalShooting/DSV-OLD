@@ -33,24 +33,26 @@ html(lang="en" ng-app="dsv")
 		script(src='js/controllers/lines.js') 
 
 	body(ng-controller="lines" style="max-height:100%;")
-	
-		div(class="logo") 
-			img(src="./logo.png")
-		table(class="navbar-cutsom navbar-default navbar-top" style="height:10%;")
-			tr
-				td(ng-controller="time")
-					h4 Uhr
-					h3(data-fittext data-fittext-max="30ex") {{time}}
-					h4 {{date}}
-		table(ng-hide="hidden")
-			tr
-				td
-					div(class="alert alert-info" role="alert")
-						b Keine Aktiven Stände 
-						| Aktuell sind keine Stände Online
-		
-		div(style="height:90%;")
+		div(style="height:100%;" ng-hide="hidden == false")
 			div(ng-repeat="item in itemList" class="animate top" style="border: solid 1px #dddddd; height:{{100 / size.y}}%; width:{{100 / size.x}}%; position: relativ; float: left; overflow: hidden;")
+				div(style="display: table; height: 100%;" ng-if="item.type == 'time'" ng-controller="time")
+					table
+						tr
+							td
+								h4 Uhr
+								h3(data-fittext data-fittext-max="30ex") {{time}}
+								h4 {{date}}
+							//- td
+							//- 	img(src="./logo.png")
+
+				div(style="display: table; height: 100%;" ng-if="item.type == 'noLines'")
+					table
+						tr
+							td
+								div(class="alert alert-info" role="alert")
+									b Keine Aktiven Stände 
+									| Aktuell sind keine Stände Online
+									
 				div(style="display: table; height: 100%;" ng-if="item.type == 'team'" ng-controller="team")
 					div(style="vertical-align: middle; display: table-cell;")
 						h2 {{team.verein}} {{team.manschaft}}
@@ -69,6 +71,7 @@ html(lang="en" ng-app="dsv")
 									tr
 										td(colspan="2")
 											h2 {{team.gesamt}} Ringe
+											
 				div(ng-controller="stand" ng-if="item.type == 'line'" style="height: 100%;")
 					div(style="display: table; height: 100%;")
 						div(class="standLabel")

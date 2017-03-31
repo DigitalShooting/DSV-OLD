@@ -48,21 +48,33 @@ angular.module('dsv.controllers.main', [
 	});
 
 	function updateUI(){
-		$scope.hidden = activelines.length !== 0;
-
 		var itemList = [];
-		for (var id in activelines){
+		itemList.push({
+			type: "time",
+		});
+
+		if (activelines.length != 0) {
+			for (var id in activelines){
+				itemList.push({
+					type: "line",
+					data: activelines[id],
+				});
+			}
+			for (var id in teams){
+				itemList.push({
+					type: "team",
+					data: teams[id],
+				});
+			}
+		}
+		else {
 			itemList.push({
-				type: "line",
-				data: activelines[id],
+				type: "noLines",
 			});
 		}
-		for (var id in teams){
-			itemList.push({
-				type: "team",
-				data: teams[id],
-			});
-		}
+
+
+
 
 		$scope.size.x = Math.round( Math.pow(itemList.length, 0.45) );
 		$scope.size.y = Math.ceil( itemList.length / $scope.size.x);

@@ -1,4 +1,4 @@
 # Changelog
 
-## v2.1
+## v2.1.0
 - `ADD` Team sums
