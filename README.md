@@ -39,12 +39,7 @@ node index.js
 ## Config
 Siehe `/config/*`.
 
-## Install
-````bash
-git clone https://git.janniklorenz.de/diana/DSV.git
-cd DSV
-npm install
-````
+
 
 ## Licence
 GNU GENERAL PUBLIC LICENSE Version 3
