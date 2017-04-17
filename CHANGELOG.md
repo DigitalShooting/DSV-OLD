@@ -9,5 +9,8 @@
 - Add space before percent in teams
 - Check latency, make faster
 
+## v2.1.1
+- `ADD` add node_modules to repo
+
 ## v2.1.0
 - `ADD` Team sums
