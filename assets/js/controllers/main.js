@@ -47,6 +47,9 @@ angular.module('dsv.controllers.main', [
 		updateUI();
 	});
 
+	/**
+	 Add all modules to the itemList and trigger resize to recalculate the sizes
+	 */
 	function updateUI(){
 		var itemList = [];
 		itemList.push({
@@ -73,23 +76,120 @@ angular.module('dsv.controllers.main', [
 			});
 		}
 
-
-
-
-		$scope.size.x = Math.round( Math.pow(itemList.length, 0.45) );
-		$scope.size.y = Math.ceil( itemList.length / $scope.size.x);
-
 		$scope.itemList = itemList;
 
 		resize();
 	}
 
+	/**
+	 Calculate a good x y ratio for the grid.
+	 Returns an object {x: ..., y: ...}
+	 */
+	function recalculateXY(itemList) {
+		// diff ratio of the window, 1.0 if its exactly 16/9 (which the page
+		// was designed for), bigger if the width is bigger than the height
+		// (in ratio to 16/9), or otherwise for smaller than 1.0.
+		var ratioDiff = $window.innerWidth/$window.innerHeight * 9/16;
+
+		// the number of items in a row will be count(items)^(0.45*ratioDiff)
+		var x = Math.round( Math.pow(itemList.length, 0.45 * ratioDiff));
+
+		// fix possible bigger x than items
+		if (x > itemList.length) x = itemList.length;
+
+		return {
+			x: x,
+			// the number of rows will be the next integer solution for
+			// count(items)/ x
+			y: Math.ceil( itemList.length / x),
+		};
+	}
+
 	window.addEventListener('load', resize, false);
 	window.addEventListener('resize', resize, false);
 
+	/**
+	 Calculate the size object after resizing the window or reciving new data.
+	 We split the elements into rows and colums. If the cells height is bigger
+	 than its width, we will use vertical mode with the target at the top and
+	 the data below. Otherwise ists horizontal mode, the target on the left and
+	 the data on the right.
+	 */
 	function resize() {
-		$scope.size.height = ($window.innerHeight * 0.9)/ $scope.size.y;
-		// $scope.size.width = (window.innerWidth * 0.9)/ $scope.size.x; // not needed currently
+		var pos = recalculateXY($scope.itemList);
+
+		// height and width of the entire cell
+		var h = $window.innerHeight/ pos.y;
+		var w = $window.innerWidth/ pos.x;
+
+		// target size (height and width)
+		var targetSize;
+
+		// x and y offset for the target
+		var targetOffset = {
+			x: 0,
+			y: 0,
+		};
+
+		// string with the used mode for the frontend
+		// - horizontal: horizontal mode
+		// - vertical: vertical mode
+		var mode;
+
+		// Size of the data in relation to the size of the image.
+		// 2: Image and data section are even
+		// 3: Image is 1/3, data 2/3
+		// ...
+		var imageRatio = 2.5;
+
+		// height is smaller then width, horizontal mode
+		if (h < w) {
+			mode = "horizontal";
+
+			// the image in ratio is smaller than the full heigth of the cell so
+			// we set an y offset to center it.
+			if (w/imageRatio < h) {
+				targetSize = w/imageRatio;
+				targetOffset.y = (h-targetSize)/2;
+			}
+			// the image in ratio would be bigger than the full height, so we
+			// set the full height as target size. No Centering here, we need
+			// all the space to show the data.
+			else {
+				targetSize = h;
+			}
+		}
+
+		// height is bigger (or even) than width, vertical mode
+		else {
+			mode = "vertical";
+
+			// the image in ratio is smaller than the full widht of the cell so
+			// we set an x offset to center it.
+			if (h/imageRatio < w) {
+				targetSize = h/imageRatio;
+				targetOffset.x = (w-targetSize)/2;
+			}
+			// the image in ratio would be bigger than the full width of the
+			// cell, so we set the full width as target size. No Centering here,
+			// we need all the space to show the data.
+			else {
+				targetSize = w;
+			}
+		}
+
+		$scope.size = {
+			height: h,
+			width: w,
+			target: {
+				size: targetSize,
+				offset: targetOffset,
+			},
+			mode: mode,
+			x: pos.x,
+			y: pos.y,
+		};
+		// console.log($scope.size);
 	}
 })
 

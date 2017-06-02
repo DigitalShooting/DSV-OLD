@@ -1,5 +1,5 @@
 {
-  "name": "DSV",
+  "name": "dsv",
   "main": "index.js",
   "version": "0.0.0",
   "homepage": "https://github.com/DigitalShooting/DSV",
@@ -20,7 +20,7 @@
     "angular-socket-io": "^0.7.0",
     "angular-route": "~1.6.4",
     "angular-animate": "~1.6.4",
-    "ngFitText": "~4.2.0"
+    "ngFitText": "~4.2.3"
   },
   "resolutions": {
     "angular": "1.6.4-build.5336+sha.80077f3"

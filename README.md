@@ -27,7 +27,7 @@ cd DSV
 # NPM rebuild
 npm rebuild
 
-# configure (more under /docs/config.md)
+# configure
 ls config/
 
 # start
