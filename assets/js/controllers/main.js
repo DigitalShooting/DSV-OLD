@@ -202,6 +202,9 @@ angular.module('dsv.controllers.main', [
 			$('.autoSize').quickfit({max: 40});
 		}, 300);
 	}
+
+	// Call one time to show time
+	updateUI();
 })
 
 
