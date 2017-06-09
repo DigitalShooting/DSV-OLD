@@ -62,7 +62,7 @@ html(lang="en" ng-app="dsv")
 							p(class="autoSize doubleBoxFoother fontStyleBold" style="height:50%; align-items: flex-start;") &Oslash; Ringe
 						
 					div(style="margin-left:{{size.mode == 'horizontal' ? size.target.size : 0}}px; margin-top:{{size.mode == 'vertical' ? size.target.size : 0}}px; width:{{size.text.size.width}}px; height:{{size.text.size.height}}px;")
-						div(style="border-bottom: 1px #eee solid; height: 30%;")
+						div(style="border-bottom: 1px #eee solid; height: 35%;")
 							p(class="autoSize singleBox") {{team.verein}} {{team.manschaft}}
 							
 						div(style="height: 35%;")
@@ -70,7 +70,7 @@ html(lang="en" ng-app="dsv")
 								p(class="autoSize singleBox fontStyleThin") {{team.progress}}%
 							div(class="borderBottom" style="width: 50%; height: 100%; float: left;")
 								p(class="autoSize singleBox fontStyleThin") {{team.schnitt}} &Oslash;
-						div(style="width:100%; height: 35%;")
+						div(style="width:100%; height: 30%;")
 							p(class="autoSize singleBox fontStyleNormal") {{team.gesamt}} Ringe
 
 
@@ -83,11 +83,11 @@ html(lang="en" ng-app="dsv")
 							target(zoomlevel="zoomlevel" serie="serie.shots" selectedshotindex="selectedshotindex" scheibe="scheibe" probeecke="probeecke" size="size.target.size")
 						
 						div(style="margin-left:{{size.mode == 'horizontal' ? size.target.size : 0}}px; margin-top:{{size.mode == 'vertical' ? size.target.size : 0}}px; width:{{size.text.size.width}}px; height:{{size.text.size.height}}px;")
-							div(style="border-bottom: 1px #eee solid; height: 30%;")
+							div(style="border-bottom: 1px #eee solid; height: 35%;")
 								p(class="autoSize" style="height:50%;") {{data.user.firstName}} {{data.user.lastName}}
 								p(class="autoSize" style="height:50%;") {{data.user.verein}} {{data.user.manschaft}}
 							
-							div(style="height: 70%; width: 75%; float: left;" ng-hide="session.serien.length == 0")
+							div(style="height: 65%; width: 75%; float: left;" ng-hide="session.serien.length == 0")
 								div(class="halfSizeBox borderBottom")
 									p(class="autoSize singleBox fontStyleBold") {{activeShot.ring.display}}
 								
