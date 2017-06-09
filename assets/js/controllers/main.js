@@ -119,8 +119,10 @@ angular.module('dsv.controllers.main', [
 		var pos = recalculateXY($scope.itemList);
 
 		// height and width of the entire cell
-		var h = $window.innerHeight/ pos.y;
-		var w = $window.innerWidth/ pos.x;
+		var h = $(document).height() / pos.y;
+		var w = $(document).width() / pos.x;
+
+
 
 		// target size (height and width)
 		var targetSize;
@@ -185,11 +187,20 @@ angular.module('dsv.controllers.main', [
 				size: targetSize,
 				offset: targetOffset,
 			},
+			text: {
+				size: {
+					width: mode == "vertical" ? w : w - targetSize,
+					height: mode == "vertical" ? h - targetSize : h,
+				},
+			},
 			mode: mode,
 			x: pos.x,
 			y: pos.y,
 		};
-		// console.log($scope.size);
+
+		setTimeout(function() {
+			$('.autoSize').quickfit({max: 40});
+		}, 300);
 	}
 })
 
@@ -226,6 +237,10 @@ angular.module('dsv.controllers.main', [
 		if ($scope.stand != null && gatewayData.line != $scope.stand.id) return;
 		var data = gatewayData.data;
 		updateUI(data);
+
+		setTimeout(function() {
+			$('#'+$scope.stand.id+' .autoSize').quickfit({max: 40});
+		}, 300);
 	});
 
 
@@ -257,7 +272,10 @@ angular.module('dsv.controllers.main', [
 
 		$scope.data = data;
 		$scope.session = session;
+		// the last x serien of the session to show
 		$scope.lastSerien = [];
+		// Number of colums we divide the lastSerien into in the ui
+		$scope.serienColums = 1;
 
 		if (session.serien.length > 0){
 
@@ -265,6 +283,7 @@ angular.module('dsv.controllers.main', [
 			for (var i = session.serien.length-1; (i > session.serien.length-5 && i >= 0); i--){
 				$scope.lastSerien.unshift(session.serien[i]);
 			}
+			$scope.serienColums = Math.round($scope.lastSerien.length / 4);
 
 			$scope.serie = session.serien[session.selection.serie];
 			$scope.selectedshotindex = session.selection.shot;

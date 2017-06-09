@@ -3,12 +3,14 @@ html(lang="en" ng-app="dsv")
 	head
 		title DSV
 			
-		meta(name="viewport", content="width=device-width")
+		//- meta(name="viewport", content="width=device-width")
+		meta(content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport')
 		
 		link(href="/css/style.css", rel="stylesheet")
 		
 		// jquery
 		script(src="/libs/jquery/dist/jquery.js")
+		script(src="/js/size.js")
 		
 		// bootstrap
 		script(src="/libs/bootstrap/dist/js/bootstrap.min.js")
@@ -23,9 +25,6 @@ html(lang="en" ng-app="dsv")
 		script(src="/socket.io/socket.io.js")
 		script(src="/libs/angular-socket-io/socket.js")
 		
-		// FitText
-		script(src="/libs/ngFitText/dist/ng-FitText.min.js")
-		
 		// Modules
 		script(src='js/services/grafik.js')
 		script(src='js/services/timeFuctions.js')
@@ -34,22 +33,19 @@ html(lang="en" ng-app="dsv")
 
 	body(ng-controller="lines" style="max-height:100%;")
 		div(style="height:100%;" ng-hide="hidden == false")
-			div(ng-repeat="item in itemList" class="animate top" style="border: solid 1px #dddddd; height:{{100 / size.y}}%; max-height:{{100 / size.y}}%; width:{{100 / size.x}}%; position: relativ; float: left; overflow: hidden;")
+			div(ng-repeat="item in itemList" class="animate top" style="border: solid 1px #dddddd; height:{{100 / size.y}}%; max-height:{{100 / size.y}}%; width:{{100 / size.x}}%; max-width:{{100 / size.x}}%; position: relativ; float: left; overflow: hidden;")
 				
-				div(style="display: table; height: 100%; display: flex;" ng-if="item.type == 'time'" ng-controller="time")
-					div(style="display: table; height: 100%;")
-						img(src="./logo.png" style="position:absolute; width:{{size.target.size}}px; margin:0px; margin-top:{{size.target.offset.y}}px; margin-left:{{size.target.offset.x}}px; height:{{size.target.size}}px; padding:0px;")
-						div(style="vertical-align: middle; display: table-cell;")
-							div(style="margin-left:{{size.mode == 'horizontal' ? size.target.size : 0}}px; margin-top:{{size.mode == 'vertical' ? size.target.size : 0}}px;" data-fittext)
-								table
-									tr
-										td(data-fittext)
-											h4 Uhr
-											h3 {{time}}
-											h4 {{date}}	
+				
+				div(style="height: 100%;" ng-if="item.type == 'time'" ng-controller="time")
+					img(src="./logo.png" style="position:absolute; width:{{size.target.size}}px; margin:0px; margin-top:{{size.target.offset.y}}px; margin-left:{{size.target.offset.x}}px; height:{{size.target.size}}px; padding:2%;")
+					
+					div(style="margin-left:{{size.mode == 'horizontal' ? size.target.size : 0}}px; margin-top:{{size.mode == 'vertical' ? size.target.size : 0}}px; height: 100%;")
+						p(class="autoSize fontStyleThin" style="width: 100%; height: 35%; align-items: flex-end;") Uhr
+						p(class="autoSize fontStyleNormal" style="width: 100%; height: 30%;") {{time}}
+						p(class="autoSize fontStyleThin" style="width: 100%; height: 35%; align-items: flex-start;") {{date}}	
 
 
-				div(style="display: table; height: 100%;" ng-if="item.type == 'noLines'")
+				div(style="height: 100%;" ng-if="item.type == 'noLines'")
 					table
 						tr
 							td
@@ -57,55 +53,58 @@ html(lang="en" ng-app="dsv")
 									b Keine Aktiven Stände
 									br
 									| Aktuell sind keine Stände Online
-									
-				div(style="display: table; height: 100%;" ng-if="item.type == 'team'" ng-controller="team")
-					div(style="vertical-align: middle; display: table-cell;")
-						h2 {{team.verein}} {{team.manschaft}}
-						br
-						div(class="col-xs-3 teamSum")
-							h1(class="thin") {{team.hochrechnung}}
-							h2 &Oslash; Ringe
-						div(class="col-xs-9")
-							div(class="grayBoxp")
-								table(class="table")
-									tr
-										td
-											h4 {{team.progress}}%
-										td
-											h4 {{team.schnitt}} &Oslash;
-									tr
-										td(colspan="2")
-											h2 {{team.gesamt}} Ringe
-											
-				div(ng-controller="stand" ng-if="item.type == 'line'" style="height: 100%;")
-					div(style="display: table; height: 100%;")
+				
+				
+				div(style="height: 100%;" ng-if="item.type == 'team'" ng-controller="team")
+					div(class="verticalCenter" style="position:absolute; width:{{size.target.size}}px; margin:0px; margin-top:{{size.target.offset.y}}px; margin-left:{{size.target.offset.x}}px; height:{{size.target.size}}px; padding:0px;")
+						div(class="singleBox borderBottom borderLeft")
+							p(class="autoSize doubleBoxMain fontStyleThin" style="height:50%; align-items: flex-end;") {{team.hochrechnung}}
+							p(class="autoSize doubleBoxFoother fontStyleBold" style="height:50%; align-items: flex-start;") &Oslash; Ringe
+						
+					div(style="margin-left:{{size.mode == 'horizontal' ? size.target.size : 0}}px; margin-top:{{size.mode == 'vertical' ? size.target.size : 0}}px; width:{{size.text.size.width}}px; height:{{size.text.size.height}}px;")
+						div(style="border-bottom: 1px #eee solid; height: 30%;")
+							p(class="autoSize singleBox") {{team.verein}} {{team.manschaft}}
+							
+						div(style="height: 70%;")
+							div(class="halfSizeBox borderBottom")
+								p(class="autoSize singleBox fontStyleThin") {{team.progress}}%
+							div(class="halfSizeBox borderBottom")
+								p(class="autoSize singleBox fontStyleThin") {{team.schnitt}} &Oslash;
+							div(style="width:100; height: 50%;")
+								p(class="autoSize singleBox fontStyleNormal") {{team.gesamt}} Ringe
+
+
+				div(ng-controller="stand" id="{{stand.id}}" ng-if="item.type == 'line'" style="height: 100%;")
+					div(style="height: 100%; width: 100%;")
 						div(class="standLabel")
 							h1 {{stand.labelShort}}
 							
 						div(style="position:absolute; width:{{size.target.size}}px; margin:0px; margin-top:{{size.target.offset.y}}px; margin-left:{{size.target.offset.x}}px; height:{{size.target.size}}px; padding:0px;")
 							target(zoomlevel="zoomlevel" serie="serie.shots" selectedshotindex="selectedshotindex" scheibe="scheibe" probeecke="probeecke" size="size.target.size")
 						
-						div(style="vertical-align: middle; display: table-cell;")
-							div(style="margin-left:{{size.mode == 'horizontal' ? size.target.size : 0}}px; margin-top:{{size.mode == 'vertical' ? size.target.size : 0}}px;" data-fittext)
-								h2 {{data.user.firstName}} {{data.user.lastName}}
-								h4 {{data.user.verein}} {{data.user.manschaft}}
-								div(class="grayBoxp paddingTop {{size.x <= 2 ? 'col-xs-8': 'col-xs-12'}}" ng-hide="session.serien.length == 0")
-									table
-										tr
-											td
-												h1 {{activeShot.ring.display}}
-											td
-												h6 {{session.anzahl}}.
-										tr
-											td
-												h6 {{session.schnitt}} &Oslash ({{session.schnittCalc}})
-											td
-												h5 {{session.gesamt}} Ringe
-								div(class="{{size.x <= 2 ? 'col-xs-4': 'col-xs-12'}}")
-									table(class="{{size.x > 2 ? 'table': ''}} paddingTop")
-										tr
-											td(ng-repeat="serie in lastSerien track by $index" class="")
-												h5 {{serie.gesamt}}
+						div(style="margin-left:{{size.mode == 'horizontal' ? size.target.size : 0}}px; margin-top:{{size.mode == 'vertical' ? size.target.size : 0}}px; width:{{size.text.size.width}}px; height:{{size.text.size.height}}px;")
+							div(style="border-bottom: 1px #eee solid; height: 30%;")
+								p(class="autoSize" style="height:50%;") {{data.user.firstName}} {{data.user.lastName}}
+								p(class="autoSize" style="height:50%;") {{data.user.verein}} {{data.user.manschaft}}
+							
+							div(style="height: 70%; width: 75%; float: left;" ng-hide="session.serien.length == 0")
+								div(class="halfSizeBox borderBottom")
+									p(class="autoSize singleBox fontStyleBold") {{activeShot.ring.display}}
+								
+								div(class="halfSizeBox borderBottom borderLeft")
+									p(class="autoSize doubleBoxMain fontStyleNormal") {{session.gesamt}}
+									p(class="autoSize doubleBoxFoother fontStyleThin") Ringe
+								
+								div(class="halfSizeBox")
+									p(class="autoSize singleBox fontStyleThin") {{session.anzahl}}.
+								
+								div(class="halfSizeBox borderLeft")
+									p(class="autoSize doubleBoxMain fontStyleNormal") {{session.schnitt}} &Oslash
+									p(class="autoSize doubleBoxFoother fontStyleThin") ({{session.schnittCalc}})
+								
+							div(style="height: {{size.text.size.height*0.7}}px; width: 25%; float: left;" ng-hide="session.serien.length == 0")
+								ul(style="border-left: 1px #eee solid; padding: 0; list-style-type: none; columns: {{serienColums}}; height:100%;")
+									li(ng-repeat="serie in lastSerien track by $index" class="autoSize borderBottom {{lastSerien.length-1 == $index ? 'fontStyleNormal' : 'fontStyleThin'}}" style="height:25%; padding: 0; margin: 0;") {{serie.gesamt}}
 			
 		// Main JS init
 		script.
@@ -117,21 +116,6 @@ html(lang="en" ng-app="dsv")
 			angular.module("dsv", [
 				"ds.services.grafik",
 				"dsv.services.lines", "dsv.controllers.main",
-				"ngAnimate", "ngFitText",
-			]).config(['fitTextConfigProvider', function(fitTextConfigProvider) {
-				fitTextConfigProvider.config = {
-					//- debounce: _.debounce,               // include a vender function like underscore or lodash
-					// debounce: function(a,b,c) {         // OR specify your own function
-					// 	var d;return function(){var e=this,f=arguments;clearTimeout(d),d=setTimeout(function(){d=null,c||a.apply(e,f)},b),c&&!d&&a.apply(e,f)}
-					// },
-					delay: 1000,                        // debounce delay
-					loadDelay: 10,                      // global default delay before initial calculation
-					compressor: 2,                      // global default calculation multiplier
-					min: 0,                             // global default min
-					min: 'inherit',                     // OR inherit CSS values globally
-					max: Number.POSITIVE_INFINITY       // global default max
-					//- max: 'inherit'                      // OR inherit CSS values globally
-				};
-			}]);
-			
+				"ngAnimate",
+			])
 			
