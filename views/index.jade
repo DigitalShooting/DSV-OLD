@@ -102,7 +102,7 @@ html(lang="en" ng-app="dsv")
 									p(class="autoSize doubleBoxMain fontStyleNormal") {{session.schnitt}} &Oslash
 									p(class="autoSize doubleBoxFoother fontStyleThin") ({{session.schnittCalc}})
 								
-							div(style="height: {{size.text.size.height*0.7}}px; width: 25%; float: left;" ng-hide="session.serien.length == 0")
+							div(style="height: 65%; width: 25%; float: left;" ng-hide="session.serien.length == 0")
 								ul(style="border-left: 1px #eee solid; padding: 0; list-style-type: none; columns: {{serienColums}}; height:100%;")
 									li(ng-repeat="serie in lastSerien track by $index" class="autoSize borderBottom {{lastSerien.length-1 == $index ? 'fontStyleNormal' : 'fontStyleThin'}}" style="height:25%; padding: 0; margin: 0;") {{serie.gesamt}}
 			
