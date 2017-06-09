@@ -89,7 +89,7 @@ angular.module('dsv.controllers.main', [
 		// diff ratio of the window, 1.0 if its exactly 16/9 (which the page
 		// was designed for), bigger if the width is bigger than the height
 		// (in ratio to 16/9), or otherwise for smaller than 1.0.
-		var ratioDiff = $window.innerWidth/$window.innerHeight * 9/16;
+		var ratioDiff = $window.innerWidth/$window.innerHeight * 11/16;
 
 		// the number of items in a row will be count(items)^(0.45*ratioDiff)
 		var x = Math.round( Math.pow(itemList.length, 0.45 * ratioDiff));
