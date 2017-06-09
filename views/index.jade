@@ -65,13 +65,13 @@ html(lang="en" ng-app="dsv")
 						div(style="border-bottom: 1px #eee solid; height: 30%;")
 							p(class="autoSize singleBox") {{team.verein}} {{team.manschaft}}
 							
-						div(style="height: 70%;")
-							div(class="halfSizeBox borderBottom")
+						div(style="height: 35%;")
+							div(class="borderBottom" style="width: 50%; height: 100%;")
 								p(class="autoSize singleBox fontStyleThin") {{team.progress}}%
-							div(class="halfSizeBox borderBottom")
+							div(class="borderBottom" style="width: 50%; height: 100%;")
 								p(class="autoSize singleBox fontStyleThin") {{team.schnitt}} &Oslash;
-							div(style="width:100; height: 50%;")
-								p(class="autoSize singleBox fontStyleNormal") {{team.gesamt}} Ringe
+						div(style="width:100%; height: 35%;")
+							p(class="autoSize singleBox fontStyleNormal") {{team.gesamt}} Ringe
 
 
 				div(ng-controller="stand" id="{{stand.id}}" ng-if="item.type == 'line'" style="height: 100%;")
