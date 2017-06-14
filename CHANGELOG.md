@@ -1,13 +1,12 @@
 # Changelog
 
 ## Future
-- Move teams in dsv up to the top
-- Test if teamsum calc ist thin and sum is bold
 - Allow free text writing
+
+## v2.2.0
+- Logo in clock box
+- Space before percent in teams
 - Clean up Line UI
-- Add logo to clock box
-- Add space before percent in teams
-- Check latency, make faster
 
 ## v2.1.1
 - `ADD` add node_modules to repo
