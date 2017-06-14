@@ -17,6 +17,11 @@ angular.module('dsv.controllers.main', [
 	 */
 	var teams = [];
 
+	// Timer to show ui after resize
+	var showTimer;
+
+	$scope.isLoading = true;
+
 	/**
 	 Frontend size of oure layout
 	 */
@@ -116,13 +121,14 @@ angular.module('dsv.controllers.main', [
 	 the data on the right.
 	 */
 	function resize() {
+		$scope.isLoading = true;
+		clearTimeout(showTimer);
+
 		var pos = recalculateXY($scope.itemList);
 
 		// height and width of the entire cell
 		var h = $(document).height() / pos.y;
 		var w = $(document).width() / pos.x;
-
-
 
 		// target size (height and width)
 		var targetSize;
@@ -145,7 +151,7 @@ angular.module('dsv.controllers.main', [
 		var imageRatio = 2.5;
 
 		// height is smaller then width, horizontal mode
-		if (h < w) {
+		if (h < w*0.8) {
 			mode = "horizontal";
 
 			// the image in ratio is smaller than the full heigth of the cell so
@@ -189,8 +195,8 @@ angular.module('dsv.controllers.main', [
 			},
 			text: {
 				size: {
-					width: mode == "vertical" ? w : w - targetSize,
-					height: mode == "vertical" ? h - targetSize : h,
+					width: mode == "vertical" ? w-4 : w - targetSize-4,
+					height: mode == "vertical" ? h-4 - targetSize : h-4,
 				},
 			},
 			mode: mode,
@@ -201,6 +207,11 @@ angular.module('dsv.controllers.main', [
 		setTimeout(function() {
 			$('.autoSize').quickfit({max: 40});
 		}, 300);
+
+		showTimer = setTimeout(function() {
+			$scope.isLoading = false;
+		}, 600);
+
 	}
 
 	// Call one time to show time
