@@ -101,11 +101,12 @@ html(lang="en" ng-app="dsv")
 								p(class="autoSize doubleBoxFoother fontStyleThin") Ringe
 							
 							div(class="halfSizeBox")
-								p(class="autoSize singleBox fontStyleThin") {{session.anzahl}}.
+								p(class="autoSize doubleBoxMain fontStyleNormal") {{session.anzahl}}.
+								p(class="autoSize doubleBoxFoother fontStyleThin") {{limit}}
 							
 							div(class="halfSizeBox borderLeft")
 								p(class="autoSize doubleBoxMain fontStyleNormal") {{session.schnitt}} &Oslash
-								p(class="autoSize doubleBoxFoother fontStyleThin") ({{session.schnittCalc}})
+								p(class="autoSize doubleBoxFoother fontStyleThin") {{session.schnittCalc}}
 							
 						div(style="height: 65%; width: 25%; float: left;" ng-hide="session.serien.length == 0")
 							ul(style="border-left: 1px #eee solid; padding: 0; list-style-type: none; columns: {{serienColums}}; height:100%;")

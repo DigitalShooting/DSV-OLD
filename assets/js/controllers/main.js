@@ -291,6 +291,9 @@ angular.module('dsv.controllers.main', [
 		// Number of colums we divide the lastSerien into in the ui
 		$scope.serienColums = 1;
 
+		var anzahlShots = data.disziplin.parts[session.type].anzahlShots;
+		$scope.limit = anzahlShots === 0 ? "" : anzahlShots;
+
 		if (session.serien.length > 0){
 
 			// Show only last 4 serien (5-1)
