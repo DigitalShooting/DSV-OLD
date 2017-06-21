@@ -292,7 +292,7 @@ angular.module('dsv.controllers.main', [
 		$scope.serienColums = 1;
 
 		var anzahlShots = data.disziplin.parts[session.type].anzahlShots;
-		$scope.limit = anzahlShots === 0 ? "" : anzahlShots;
+		$scope.anzahlShots = anzahlShots === 0 ? "" : anzahlShots + ".";
 
 		if (session.serien.length > 0){
 
