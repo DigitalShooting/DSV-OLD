@@ -57,9 +57,6 @@ angular.module('dsv.controllers.main', [
 	 */
 	function updateUI(){
 		var itemList = [];
-		itemList.push({
-			type: "time",
-		});
 
 		if (activelines.length != 0) {
 			for (var id in teams){
@@ -80,6 +77,10 @@ angular.module('dsv.controllers.main', [
 				type: "noLines",
 			});
 		}
+
+		itemList.push({
+			type: "time",
+		});
 
 		$scope.itemList = itemList;
 
